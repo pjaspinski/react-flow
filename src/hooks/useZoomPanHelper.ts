@@ -13,6 +13,7 @@ const initialZoomPanHelper: ZoomPanHelperFunctions = {
   zoomTo: (_: number) => {},
   transform: (_: FlowTransform) => {},
   fitView: (_: FitViewParams = { padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {},
+  fitViewToDimensions: (_: FitViewToDimensionsParams = { height: 0, width: 0, padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {},
   setCenter: (_: number, __: number) => {},
   fitBounds: (_: Rect) => {},
   project: (position: XYPosition) => position,

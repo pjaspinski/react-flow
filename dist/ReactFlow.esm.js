@@ -9939,6 +9939,8 @@ var initialZoomPanHelper = {
   transform: function transform(_) {},
   fitView: function fitView() {
   },
+  fitViewToDimensions: function fitViewToDimensions() {
+  },
   setCenter: function setCenter(_, __) {},
   fitBounds: function fitBounds(_) {},
   project: function project(position) {

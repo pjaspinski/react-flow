@@ -268,6 +268,7 @@ export type FlowExportObject<T = any> = {
 };
 
 export type FitViewFunc = (fitViewOptions?: FitViewParams) => void;
+export type FitViewToDimensionsFunc = (fitViewToDimensionsOptions?: FitViewToDimensionsParams) => void;
 export type ProjectFunc = (position: XYPosition) => XYPosition;
 export type ToObjectFunc<T = any> = () => FlowExportObject<T>;
 
@@ -382,6 +383,7 @@ export interface ZoomPanHelperFunctions {
   zoomTo: (zoomLevel: number) => void;
   transform: (transform: FlowTransform) => void;
   fitView: FitViewFunc;
+  fitViewToDimensions: FitViewToDimensionsFunc;
   setCenter: (x: number, y: number, zoom?: number) => void;
   fitBounds: (bounds: Rect, padding?: number) => void;
   project: (position: XYPosition) => XYPosition;
