@@ -1,7 +1,7 @@
-import { useEffect, MutableRefObject } from 'react';
+import { MutableRefObject, useEffect } from 'react';
 import { useStoreActions } from '../store/hooks';
-
 import { getDimensions } from '../utils';
+
 
 export default (rendererNode: MutableRefObject<HTMLDivElement | null>) => {
   const updateSize = useStoreActions((actions) => actions.updateSize);

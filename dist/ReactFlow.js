@@ -2441,7 +2441,10 @@ var isInputDOMNode = function isInputDOMNode(e) {
   return ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(target === null || target === void 0 ? void 0 : target.nodeName) || (target === null || target === void 0 ? void 0 : target.hasAttribute('contenteditable'));
 };
 var getDimensions = function getDimensions(node) {
-  var rect = node.getBoundingClientRect();
+  var rect = {
+    width: node.offsetWidth,
+    height: node.offsetHeight
+  };
   console.log('getDimensions returns:', {
     width: rect.width,
     height: rect.height
@@ -10012,11 +10015,6 @@ var useZoomPanHelper = function useZoomPanHelper() {
               minZoom = _store$getState.minZoom,
               maxZoom = _store$getState.maxZoom;
 
-          console.log('fitView gets from store:', {
-            height: height,
-            width: width
-          });
-
           if (!nodes.length) {
             return;
           }
@@ -10034,11 +10032,43 @@ var useZoomPanHelper = function useZoomPanHelper() {
           var transform = identity.translate(x, y).scale(zoom);
           d3Zoom.transform(d3Selection, transform);
         },
-        setCenter: function setCenter(x, y, zoom) {
+        fitViewToDimensions: function fitViewToDimensions() {
+          var _options$minZoom2, _options$maxZoom2, _options$padding2;
+
+          var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+            height: 0,
+            width: 0,
+            padding: DEFAULT_PADDING,
+            includeHiddenNodes: false
+          };
+
           var _store$getState2 = store.getState(),
-              width = _store$getState2.width,
-              height = _store$getState2.height,
+              nodes = _store$getState2.nodes,
+              minZoom = _store$getState2.minZoom,
               maxZoom = _store$getState2.maxZoom;
+
+          if (!nodes.length) {
+            return;
+          }
+
+          var bounds = getRectOfNodes(options.includeHiddenNodes ? nodes : nodes.filter(function (node) {
+            return !node.isHidden;
+          }));
+
+          var _getTransformForBound3 = getTransformForBounds(bounds, options.width, options.height, (_options$minZoom2 = options.minZoom) !== null && _options$minZoom2 !== void 0 ? _options$minZoom2 : minZoom, (_options$maxZoom2 = options.maxZoom) !== null && _options$maxZoom2 !== void 0 ? _options$maxZoom2 : maxZoom, (_options$padding2 = options.padding) !== null && _options$padding2 !== void 0 ? _options$padding2 : DEFAULT_PADDING),
+              _getTransformForBound4 = _slicedToArray$1(_getTransformForBound3, 3),
+              x = _getTransformForBound4[0],
+              y = _getTransformForBound4[1],
+              zoom = _getTransformForBound4[2];
+
+          var transform = identity.translate(x, y).scale(zoom);
+          d3Zoom.transform(d3Selection, transform);
+        },
+        setCenter: function setCenter(x, y, zoom) {
+          var _store$getState3 = store.getState(),
+              width = _store$getState3.width,
+              height = _store$getState3.height,
+              maxZoom = _store$getState3.maxZoom;
 
           var nextZoom = typeof zoom !== 'undefined' ? zoom : maxZoom;
           var centerX = width / 2 - x * nextZoom;
@@ -10049,26 +10079,26 @@ var useZoomPanHelper = function useZoomPanHelper() {
         fitBounds: function fitBounds(bounds) {
           var padding = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DEFAULT_PADDING;
 
-          var _store$getState3 = store.getState(),
-              width = _store$getState3.width,
-              height = _store$getState3.height,
-              minZoom = _store$getState3.minZoom,
-              maxZoom = _store$getState3.maxZoom;
+          var _store$getState4 = store.getState(),
+              width = _store$getState4.width,
+              height = _store$getState4.height,
+              minZoom = _store$getState4.minZoom,
+              maxZoom = _store$getState4.maxZoom;
 
-          var _getTransformForBound3 = getTransformForBounds(bounds, width, height, minZoom, maxZoom, padding),
-              _getTransformForBound4 = _slicedToArray$1(_getTransformForBound3, 3),
-              x = _getTransformForBound4[0],
-              y = _getTransformForBound4[1],
-              zoom = _getTransformForBound4[2];
+          var _getTransformForBound5 = getTransformForBounds(bounds, width, height, minZoom, maxZoom, padding),
+              _getTransformForBound6 = _slicedToArray$1(_getTransformForBound5, 3),
+              x = _getTransformForBound6[0],
+              y = _getTransformForBound6[1],
+              zoom = _getTransformForBound6[2];
 
           var transform = identity.translate(x, y).scale(zoom);
           d3Zoom.transform(d3Selection, transform);
         },
         project: function project(position) {
-          var _store$getState4 = store.getState(),
-              transform = _store$getState4.transform,
-              snapToGrid = _store$getState4.snapToGrid,
-              snapGrid = _store$getState4.snapGrid;
+          var _store$getState5 = store.getState(),
+              transform = _store$getState5.transform,
+              snapToGrid = _store$getState5.snapToGrid,
+              snapGrid = _store$getState5.snapGrid;
 
           return pointToRendererPoint(position, transform, snapToGrid, snapGrid);
         },

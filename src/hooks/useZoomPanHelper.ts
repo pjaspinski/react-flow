@@ -1,7 +1,7 @@
 import { zoomIdentity } from 'd3-zoom';
 import { useMemo } from 'react';
 import { useStore, useStoreState } from '../store/hooks';
-import { FitViewParams, FlowTransform, Rect, XYPosition, ZoomPanHelperFunctions } from '../types';
+import { FitViewParams, FitViewToDimensionsParams, FlowTransform, Rect, XYPosition, ZoomPanHelperFunctions } from '../types';
 import { getRectOfNodes, getTransformForBounds, pointToRendererPoint } from '../utils/graph';
 
 
@@ -37,7 +37,6 @@ const useZoomPanHelper = (): ZoomPanHelperFunctions => {
         },
         fitView: (options: FitViewParams = { padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {
           const { nodes, width, height, minZoom, maxZoom } = store.getState();
-          console.log('fitView gets from store:',{height, width})
 
           if (!nodes.length) {
             return;
@@ -48,6 +47,26 @@ const useZoomPanHelper = (): ZoomPanHelperFunctions => {
             bounds,
             width,
             height,
+            options.minZoom ?? minZoom,
+            options.maxZoom ?? maxZoom,
+            options.padding ?? DEFAULT_PADDING
+          );
+          const transform = zoomIdentity.translate(x, y).scale(zoom);
+
+          d3Zoom.transform(d3Selection, transform);
+        },
+        fitViewToDimensions: (options: FitViewToDimensionsParams = { height: 0, width: 0, padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {
+          const { nodes, minZoom, maxZoom } = store.getState();
+
+          if (!nodes.length) {
+            return;
+          }
+
+          const bounds = getRectOfNodes(options.includeHiddenNodes ? nodes : nodes.filter((node) => !node.isHidden));
+          const [x, y, zoom] = getTransformForBounds(
+            bounds,
+            options.width,
+            options.height,
             options.minZoom ?? minZoom,
             options.maxZoom ?? maxZoom,
             options.padding ?? DEFAULT_PADDING

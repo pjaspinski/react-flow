@@ -1,5 +1,5 @@
-import React, { CSSProperties, MouseEvent as ReactMouseEvent, HTMLAttributes, ReactNode } from 'react';
 import { Selection as D3Selection, ZoomBehavior } from 'd3';
+import React, { CSSProperties, HTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
 export declare type ElementId = string;
 export declare type FlowElement<T = any> = Node<T> | Edge<T>;
 export declare type Elements<T = any> = Array<FlowElement<T>>;
@@ -224,6 +224,14 @@ export interface WrapNodeProps<T = any> {
     resizeObserver: ResizeObserver | null;
 }
 export declare type FitViewParams = {
+    padding?: number;
+    includeHiddenNodes?: boolean;
+    minZoom?: number;
+    maxZoom?: number;
+};
+export declare type FitViewToDimensionsParams = {
+    width: number;
+    height: number;
     padding?: number;
     includeHiddenNodes?: boolean;
     minZoom?: number;

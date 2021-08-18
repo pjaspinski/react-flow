@@ -1,5 +1,5 @@
-import React, { CSSProperties, MouseEvent as ReactMouseEvent, HTMLAttributes, ReactNode } from 'react';
 import { Selection as D3Selection, ZoomBehavior } from 'd3';
+import React, { CSSProperties, HTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
 
 export type ElementId = string;
 
@@ -246,6 +246,15 @@ export interface WrapNodeProps<T = any> {
 }
 
 export type FitViewParams = {
+  padding?: number;
+  includeHiddenNodes?: boolean;
+  minZoom?: number;
+  maxZoom?: number;
+};
+
+export type FitViewToDimensionsParams = {
+  width: number,
+  height: number,
   padding?: number;
   includeHiddenNodes?: boolean;
   minZoom?: number;
