@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
 import { zoomIdentity } from 'd3-zoom';
+import { useMemo } from 'react';
+import { useStore, useStoreState } from '../store/hooks';
+import { FitViewParams, FlowTransform, Rect, XYPosition, ZoomPanHelperFunctions } from '../types';
+import { getRectOfNodes, getTransformForBounds, pointToRendererPoint } from '../utils/graph';
 
-import { useStoreState, useStore } from '../store/hooks';
-import { getRectOfNodes, pointToRendererPoint, getTransformForBounds } from '../utils/graph';
-import { FitViewParams, FlowTransform, ZoomPanHelperFunctions, Rect, XYPosition } from '../types';
 
 const DEFAULT_PADDING = 0.1;
 
@@ -37,6 +37,7 @@ const useZoomPanHelper = (): ZoomPanHelperFunctions => {
         },
         fitView: (options: FitViewParams = { padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {
           const { nodes, width, height, minZoom, maxZoom } = store.getState();
+          console.log('fitView gets from store:',{height, width})
 
           if (!nodes.length) {
             return;

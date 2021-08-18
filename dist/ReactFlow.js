@@ -2447,8 +2447,8 @@ var getDimensions = function getDimensions(node) {
     height: rect.height
   });
   return {
-    width: rect.width,
-    height: rect.height
+    height: rect.height,
+    width: rect.width
   };
 };
 var clamp = function clamp(val) {
@@ -10011,6 +10011,11 @@ var useZoomPanHelper = function useZoomPanHelper() {
               height = _store$getState.height,
               minZoom = _store$getState.minZoom,
               maxZoom = _store$getState.maxZoom;
+
+          console.log('fitView gets from store:', {
+            height: height,
+            width: width
+          });
 
           if (!nodes.length) {
             return;
