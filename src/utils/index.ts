@@ -1,7 +1,7 @@
-import { DraggableEvent } from 'react-draggable';
 import { MouseEvent as ReactMouseEvent } from 'react';
+import { DraggableEvent } from 'react-draggable';
+import { Dimensions, NodeExtent, XYPosition } from '../types';
 
-import { Dimensions, XYPosition, NodeExtent } from '../types';
 
 export const isInputDOMNode = (e: ReactMouseEvent | DraggableEvent | KeyboardEvent) => {
   const target = e?.target as HTMLElement;
@@ -11,10 +11,15 @@ export const isInputDOMNode = (e: ReactMouseEvent | DraggableEvent | KeyboardEve
   );
 };
 
-export const getDimensions = (node: HTMLDivElement): Dimensions => ({
-  width: node.offsetWidth,
-  height: node.offsetHeight,
-});
+export const getDimensions = (node: HTMLDivElement): Dimensions => {
+  const rect = node.getBoundingClientRect();
+  return {width: rect.width, height: rect.height}
+}
+// ({
+//   width: node.offsetWidth,
+//   height: node.offsetHeight,
+// })
+;
 
 export const clamp = (val: number, min: number = 0, max: number = 1): number => Math.min(Math.max(val, min), max);
 

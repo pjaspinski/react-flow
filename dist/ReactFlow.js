@@ -2441,9 +2441,10 @@ var isInputDOMNode = function isInputDOMNode(e) {
   return ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(target === null || target === void 0 ? void 0 : target.nodeName) || (target === null || target === void 0 ? void 0 : target.hasAttribute('contenteditable'));
 };
 var getDimensions = function getDimensions(node) {
+  var rect = node.getBoundingClientRect();
   return {
-    width: node.offsetWidth,
-    height: node.offsetHeight
+    width: rect.width,
+    height: rect.height
   };
 };
 var clamp = function clamp(val) {

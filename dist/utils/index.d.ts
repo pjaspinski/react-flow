@@ -1,5 +1,5 @@
-import { DraggableEvent } from 'react-draggable';
 import { MouseEvent as ReactMouseEvent } from 'react';
+import { DraggableEvent } from 'react-draggable';
 import { Dimensions, XYPosition } from '../types';
 export declare const isInputDOMNode: (e: ReactMouseEvent | DraggableEvent | KeyboardEvent) => boolean;
 export declare const getDimensions: (node: HTMLDivElement) => Dimensions;
