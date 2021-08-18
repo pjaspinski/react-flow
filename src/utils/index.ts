@@ -13,6 +13,7 @@ export const isInputDOMNode = (e: ReactMouseEvent | DraggableEvent | KeyboardEve
 
 export const getDimensions = (node: HTMLDivElement): Dimensions => {
   const rect = node.getBoundingClientRect();
+  console.log('getDimensions returns:',{width: rect.width, height: rect.height})
   return {width: rect.width, height: rect.height}
 }
 // ({

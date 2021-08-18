@@ -2413,6 +2413,10 @@ var isInputDOMNode = function isInputDOMNode(e) {
 };
 var getDimensions = function getDimensions(node) {
   var rect = node.getBoundingClientRect();
+  console.log('getDimensions returns:', {
+    width: rect.width,
+    height: rect.height
+  });
   return {
     width: rect.width,
     height: rect.height
