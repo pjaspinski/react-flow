@@ -1,3 +1,5 @@
+This library was modified by me to provide a behaviour described in this [issue](https://github.com/wbkd/react-flow/issues/1419). I achieved it by adding a `fitViewToDimensions` function in `src\hooks\useZoomPanHelper.ts`.
+
 [![react-flow](https://user-images.githubusercontent.com/2857535/95224198-b2540000-07fa-11eb-832d-361d72d60345.jpg)](https://reactflow.dev)
 
 React Flow is a library for building node-based graphs. You can easily implement custom node types and it comes with components like a mini-map and graph controls. Feel free to check out the [examples](https://reactflow.dev/) or read the [blog post](https://webkid.io/blog/react-flow-node-based-graph-library/) to get started.
@@ -48,7 +50,7 @@ npm start
 and the example app via:
 
 ```sh
-cd example && npm start 
+cd example && npm start
 ```
 
 The example app serves the content of the `example` folder and watches changes inside the `src` folder. The examples are using the source of the `src` folder.
