@@ -16,7 +16,6 @@ export const getDimensions = (node: HTMLDivElement): Dimensions => {
       width: node.offsetWidth,
       height: node.offsetHeight,
     };
-  console.log('getDimensions returns:',{width: rect.width, height: rect.height})
   return { height: rect.height, width: rect.width}
 }
 // ({
