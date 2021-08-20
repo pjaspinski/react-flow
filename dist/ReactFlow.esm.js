@@ -9984,11 +9984,6 @@ var useZoomPanHelper = function useZoomPanHelper() {
               minZoom = _store$getState.minZoom,
               maxZoom = _store$getState.maxZoom;
 
-          console.log('fitView called with', {
-            height: height,
-            width: width
-          });
-
           if (!nodes.length) {
             return;
           }
@@ -10020,11 +10015,6 @@ var useZoomPanHelper = function useZoomPanHelper() {
               nodes = _store$getState2.nodes,
               minZoom = _store$getState2.minZoom,
               maxZoom = _store$getState2.maxZoom;
-
-          console.log('fitViewToDimensions called with', {
-            height: options.height,
-            width: options.width
-          });
 
           if (!nodes.length) {
             return;
