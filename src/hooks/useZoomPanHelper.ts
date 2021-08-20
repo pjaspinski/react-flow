@@ -38,7 +38,6 @@ const useZoomPanHelper = (): ZoomPanHelperFunctions => {
         },
         fitView: (options: FitViewParams = { padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {
           const { nodes, width, height, minZoom, maxZoom } = store.getState();
-          console.log('fitView called with',{height, width})
           if (!nodes.length) {
             return;
           }
@@ -58,7 +57,6 @@ const useZoomPanHelper = (): ZoomPanHelperFunctions => {
         },
         fitViewToDimensions: (options: FitViewToDimensionsParams = { height: 0, width: 0, padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {
           const { nodes, minZoom, maxZoom } = store.getState();
-          console.log('fitViewToDimensions called with',{height: options.height, width: options.width})
 
           if (!nodes.length) {
             return;
