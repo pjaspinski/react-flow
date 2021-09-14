@@ -1,6 +1,35 @@
-import * as React$1 from 'react';
-import React__default, { useLayoutEffect, useEffect, useMemo, useContext, useDebugValue, useReducer, useRef, useState, memo, useCallback, createContext, forwardRef } from 'react';
-import require$$2, { unstable_batchedUpdates } from 'react-dom';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var React$1 = require('react');
+var require$$2 = require('react-dom');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+function _interopNamespace(e) {
+  if (e && e.__esModule) return e;
+  var n = Object.create(null);
+  if (e) {
+    Object.keys(e).forEach(function (k) {
+      if (k !== 'default') {
+        var d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: function () {
+            return e[k];
+          }
+        });
+      }
+    });
+  }
+  n['default'] = e;
+  return Object.freeze(n);
+}
+
+var React__default = /*#__PURE__*/_interopDefaultLegacy(React$1);
+var React__namespace = /*#__PURE__*/_interopNamespace(React$1);
+var require$$2__default = /*#__PURE__*/_interopDefaultLegacy(require$$2);
 
 function _defineProperty$2(obj, key, value) {
   if (key in obj) {
@@ -1619,7 +1648,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 var PropTypes = propTypes.exports;
 
-var ReactReduxContext = /*#__PURE__*/React__default.createContext(null);
+var ReactReduxContext = /*#__PURE__*/React__default['default'].createContext(null);
 
 if (process.env.NODE_ENV !== 'production') {
   ReactReduxContext.displayName = 'ReactRedux';
@@ -1768,13 +1797,13 @@ var Subscription = /*#__PURE__*/function () {
 // is created synchronously, otherwise a store update may occur before the
 // subscription is created and an inconsistent state may be observed
 
-var useIsomorphicLayoutEffect = typeof window !== 'undefined' && typeof window.document !== 'undefined' && typeof window.document.createElement !== 'undefined' ? useLayoutEffect : useEffect;
+var useIsomorphicLayoutEffect = typeof window !== 'undefined' && typeof window.document !== 'undefined' && typeof window.document.createElement !== 'undefined' ? React$1.useLayoutEffect : React$1.useEffect;
 
 function Provider$1(_ref) {
   var store = _ref.store,
       context = _ref.context,
       children = _ref.children;
-  var contextValue = useMemo(function () {
+  var contextValue = React$1.useMemo(function () {
     var subscription = new Subscription(store);
     subscription.onStateChange = subscription.notifyNestedSubs;
     return {
@@ -1782,7 +1811,7 @@ function Provider$1(_ref) {
       subscription: subscription
     };
   }, [store]);
-  var previousState = useMemo(function () {
+  var previousState = React$1.useMemo(function () {
     return store.getState();
   }, [store]);
   useIsomorphicLayoutEffect(function () {
@@ -1799,7 +1828,7 @@ function Provider$1(_ref) {
     };
   }, [contextValue, previousState]);
   var Context = context || ReactReduxContext;
-  return /*#__PURE__*/React__default.createElement(Context.Provider, {
+  return /*#__PURE__*/React__default['default'].createElement(Context.Provider, {
     value: contextValue
   }, children);
 }
@@ -1854,7 +1883,7 @@ TYPE_STATICS[reactIs.Memo] = MEMO_STATICS;
  */
 
 function useReduxContext() {
-  var contextValue = useContext(ReactReduxContext);
+  var contextValue = React$1.useContext(ReactReduxContext);
 
   if (process.env.NODE_ENV !== 'production' && !contextValue) {
     throw new Error('could not find react-redux context value; please ensure the component is wrapped in a <Provider>');
@@ -1876,7 +1905,7 @@ function createStoreHook(context) {
   }
 
   var useReduxContext$1 = context === ReactReduxContext ? useReduxContext : function () {
-    return useContext(context);
+    return React$1.useContext(context);
   };
   return function useStore() {
     var _useReduxContext = useReduxContext$1(),
@@ -1950,18 +1979,18 @@ var refEquality = function refEquality(a, b) {
 };
 
 function useSelectorWithStoreAndSubscription(selector, equalityFn, store, contextSub) {
-  var _useReducer = useReducer(function (s) {
+  var _useReducer = React$1.useReducer(function (s) {
     return s + 1;
   }, 0),
       forceRender = _useReducer[1];
 
-  var subscription = useMemo(function () {
+  var subscription = React$1.useMemo(function () {
     return new Subscription(store, contextSub);
   }, [store, contextSub]);
-  var latestSubscriptionCallbackError = useRef();
-  var latestSelector = useRef();
-  var latestStoreState = useRef();
-  var latestSelectedState = useRef();
+  var latestSubscriptionCallbackError = React$1.useRef();
+  var latestSelector = React$1.useRef();
+  var latestStoreState = React$1.useRef();
+  var latestSelectedState = React$1.useRef();
   var storeState = store.getState();
   var selectedState;
 
@@ -2038,7 +2067,7 @@ function createSelectorHook(context) {
   }
 
   var useReduxContext$1 = context === ReactReduxContext ? useReduxContext : function () {
-    return useContext(context);
+    return React$1.useContext(context);
   };
   return function useSelector(selector, equalityFn) {
     if (equalityFn === void 0) {
@@ -2064,7 +2093,7 @@ function createSelectorHook(context) {
         contextSub = _useReduxContext.subscription;
 
     var selectedState = useSelectorWithStoreAndSubscription(selector, equalityFn, store, contextSub);
-    useDebugValue(selectedState);
+    React$1.useDebugValue(selectedState);
     return selectedState;
   };
 }
@@ -2094,7 +2123,7 @@ function createSelectorHook(context) {
 
 var useSelector = /*#__PURE__*/createSelectorHook();
 
-setBatch(unstable_batchedUpdates);
+setBatch(require$$2.unstable_batchedUpdates);
 
 function createAction(type, payload) {
   return {
@@ -2317,7 +2346,7 @@ var useTypedSelector = useSelector;
 function useStoreActions(actionSelector) {
   var dispatch = useDispatch$1();
   var currAction = actionSelector(actions);
-  var action = useMemo(function () {
+  var action = React$1.useMemo(function () {
     // this looks weird but required if both ActionSelector and ActionMapObjectSelector are supported
     return typeof currAction === 'function' ? bindActionCreators(currAction, dispatch) : bindActionCreators(currAction, dispatch);
   }, [dispatch, currAction]);
@@ -2439,12 +2468,12 @@ var getHostForElement = function getHostForElement(element) {
 };
 
 var useKeyPress = (function (keyCode) {
-  var _useState = useState(false),
+  var _useState = React$1.useState(false),
       _useState2 = _slicedToArray$1(_useState, 2),
       keyPressed = _useState2[0],
       setKeyPressed = _useState2[1];
 
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof keyCode !== 'undefined') {
       var downHandler = function downHandler(event) {
         if (!isInputDOMNode(event) && (event.key === keyCode || event.keyCode === keyCode)) {
@@ -2829,7 +2858,7 @@ var useGlobalKeyHandler = (function (_ref) {
   });
   var deleteKeyPressed = useKeyPress(deleteKeyCode);
   var multiSelectionKeyPressed = useKeyPress(multiSelectionKeyCode);
-  useEffect(function () {
+  React$1.useEffect(function () {
     var _store$getState = store.getState(),
         edges = _store$getState.edges,
         selectedElements = _store$getState.selectedElements;
@@ -2845,7 +2874,7 @@ var useGlobalKeyHandler = (function (_ref) {
       resetSelectedElements();
     }
   }, [deleteKeyPressed]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     setMultiSelectionActive(multiSelectionKeyPressed);
   }, [multiSelectionKeyPressed]);
 });
@@ -6091,7 +6120,7 @@ var useResizeHandler = (function (rendererNode) {
   var updateSize = useStoreActions(function (actions) {
     return actions.updateSize;
   });
-  useEffect(function () {
+  React$1.useEffect(function () {
     var resizeObserver;
 
     var updateDimensions = function updateDimensions() {
@@ -6128,52 +6157,52 @@ var useResizeHandler = (function (rendererNode) {
   }, []);
 });
 
-var Position;
+exports.Position = void 0;
 
 (function (Position) {
   Position["Left"] = "left";
   Position["Top"] = "top";
   Position["Right"] = "right";
   Position["Bottom"] = "bottom";
-})(Position || (Position = {}));
+})(exports.Position || (exports.Position = {}));
 
-var ArrowHeadType;
+exports.ArrowHeadType = void 0;
 
 (function (ArrowHeadType) {
   ArrowHeadType["Arrow"] = "arrow";
   ArrowHeadType["ArrowClosed"] = "arrowclosed";
-})(ArrowHeadType || (ArrowHeadType = {}));
+})(exports.ArrowHeadType || (exports.ArrowHeadType = {}));
 
-var BackgroundVariant;
+exports.BackgroundVariant = void 0;
 
 (function (BackgroundVariant) {
   BackgroundVariant["Lines"] = "lines";
   BackgroundVariant["Dots"] = "dots";
-})(BackgroundVariant || (BackgroundVariant = {}));
+})(exports.BackgroundVariant || (exports.BackgroundVariant = {}));
 
-var ConnectionMode;
+exports.ConnectionMode = void 0;
 
 (function (ConnectionMode) {
   ConnectionMode["Strict"] = "strict";
   ConnectionMode["Loose"] = "loose";
-})(ConnectionMode || (ConnectionMode = {}));
+})(exports.ConnectionMode || (exports.ConnectionMode = {}));
 
-var ConnectionLineType;
+exports.ConnectionLineType = void 0;
 
 (function (ConnectionLineType) {
   ConnectionLineType["Bezier"] = "default";
   ConnectionLineType["Straight"] = "straight";
   ConnectionLineType["Step"] = "step";
   ConnectionLineType["SmoothStep"] = "smoothstep";
-})(ConnectionLineType || (ConnectionLineType = {}));
+})(exports.ConnectionLineType || (exports.ConnectionLineType = {}));
 
-var PanOnScrollMode;
+exports.PanOnScrollMode = void 0;
 
 (function (PanOnScrollMode) {
   PanOnScrollMode["Free"] = "free";
   PanOnScrollMode["Vertical"] = "vertical";
   PanOnScrollMode["Horizontal"] = "horizontal";
-})(PanOnScrollMode || (PanOnScrollMode = {}));
+})(exports.PanOnScrollMode || (exports.PanOnScrollMode = {}));
 
 var viewChanged = function viewChanged(prevTransform, eventTransform) {
   return prevTransform.x !== eventTransform.x || prevTransform.y !== eventTransform.y || prevTransform.zoom !== eventTransform.k;
@@ -6204,7 +6233,7 @@ var ZoomPane = function ZoomPane(_ref) {
       _ref$panOnScrollSpeed = _ref.panOnScrollSpeed,
       panOnScrollSpeed = _ref$panOnScrollSpeed === void 0 ? 0.5 : _ref$panOnScrollSpeed,
       _ref$panOnScrollMode = _ref.panOnScrollMode,
-      panOnScrollMode = _ref$panOnScrollMode === void 0 ? PanOnScrollMode.Free : _ref$panOnScrollMode,
+      panOnScrollMode = _ref$panOnScrollMode === void 0 ? exports.PanOnScrollMode.Free : _ref$panOnScrollMode,
       _ref$zoomOnDoubleClic = _ref.zoomOnDoubleClick,
       zoomOnDoubleClick = _ref$zoomOnDoubleClic === void 0 ? true : _ref$zoomOnDoubleClic,
       selectionKeyPressed = _ref.selectionKeyPressed,
@@ -6220,8 +6249,8 @@ var ZoomPane = function ZoomPane(_ref) {
       _ref$preventScrolling = _ref.preventScrolling,
       preventScrolling = _ref$preventScrolling === void 0 ? true : _ref$preventScrolling,
       children = _ref.children;
-  var zoomPane = useRef(null);
-  var prevTransform = useRef({
+  var zoomPane = React$1.useRef(null);
+  var prevTransform = React$1.useRef({
     x: 0,
     y: 0,
     zoom: 0
@@ -6244,7 +6273,7 @@ var ZoomPane = function ZoomPane(_ref) {
   });
   var zoomActivationKeyPressed = useKeyPress(zoomActivationKeyCode);
   useResizeHandler(zoomPane);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (zoomPane.current) {
       var state = store.getState();
       var currentTranslateExtent = typeof translateExtent !== 'undefined' ? translateExtent : state.translateExtent;
@@ -6264,7 +6293,7 @@ var ZoomPane = function ZoomPane(_ref) {
       });
     }
   }, []);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (d3Selection && d3Zoom) {
       if (panOnScroll && !zoomActivationKeyPressed) {
         d3Selection.on('wheel', function (event) {
@@ -6290,8 +6319,8 @@ var ZoomPane = function ZoomPane(_ref) {
 
 
           var deltaNormalize = event.deltaMode === 1 ? 20 : 1;
-          var deltaX = panOnScrollMode === PanOnScrollMode.Vertical ? 0 : event.deltaX * deltaNormalize;
-          var deltaY = panOnScrollMode === PanOnScrollMode.Horizontal ? 0 : event.deltaY * deltaNormalize;
+          var deltaX = panOnScrollMode === exports.PanOnScrollMode.Vertical ? 0 : event.deltaX * deltaNormalize;
+          var deltaY = panOnScrollMode === exports.PanOnScrollMode.Horizontal ? 0 : event.deltaY * deltaNormalize;
           d3Zoom.translateBy(d3Selection, -(deltaX / currentZoom) * panOnScrollSpeed, -(deltaY / currentZoom) * panOnScrollSpeed);
         }).on('wheel.zoom', null);
       } else if (typeof d3ZoomHandler !== 'undefined') {
@@ -6305,7 +6334,7 @@ var ZoomPane = function ZoomPane(_ref) {
       }
     }
   }, [panOnScroll, panOnScrollMode, d3Selection, d3Zoom, d3ZoomHandler, zoomActivationKeyPressed, zoomOnPinch, preventScrolling]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (d3Zoom) {
       if (selectionKeyPressed) {
         d3Zoom.on('zoom', null);
@@ -6321,7 +6350,7 @@ var ZoomPane = function ZoomPane(_ref) {
       }
     }
   }, [selectionKeyPressed, d3Zoom, updateTransform, onMove]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (d3Zoom) {
       if (onMoveStart) {
         d3Zoom.on('start', function (event) {
@@ -6336,7 +6365,7 @@ var ZoomPane = function ZoomPane(_ref) {
       }
     }
   }, [d3Zoom, onMoveStart]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (d3Zoom) {
       if (onMoveEnd) {
         d3Zoom.on('end', function (event) {
@@ -6351,7 +6380,7 @@ var ZoomPane = function ZoomPane(_ref) {
       }
     }
   }, [d3Zoom, onMoveEnd]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (d3Zoom) {
       d3Zoom.filter(function (event) {
         var zoomScroll = zoomActivationKeyPressed || zoomOnScroll;
@@ -6404,7 +6433,7 @@ var ZoomPane = function ZoomPane(_ref) {
       });
     }
   }, [d3Zoom, zoomOnScroll, zoomOnPinch, panOnScroll, zoomOnDoubleClick, paneMoveable, selectionKeyPressed, elementsSelectable, zoomActivationKeyPressed]);
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default['default'].createElement("div", {
     className: "react-flow__renderer react-flow__zoompane",
     ref: zoomPane
   }, children);
@@ -6437,7 +6466,7 @@ var SelectionRect = function SelectionRect() {
     return null;
   }
 
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default['default'].createElement("div", {
     className: "react-flow__selection",
     style: {
       width: userSelectionRect.width,
@@ -6447,7 +6476,7 @@ var SelectionRect = function SelectionRect() {
   });
 };
 
-var UserSelection = /*#__PURE__*/memo(function (_ref) {
+var UserSelection = /*#__PURE__*/React$1.memo(function (_ref) {
   var selectionKeyPressed = _ref.selectionKeyPressed;
   var selectionActive = useStoreState(function (state) {
     return state.selectionActive;
@@ -6506,13 +6535,13 @@ var UserSelection = /*#__PURE__*/memo(function (_ref) {
     unsetNodesSelection();
   };
 
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default['default'].createElement("div", {
     className: "react-flow__selectionpane",
     onMouseDown: onMouseDown,
     onMouseMove: onMouseMove,
     onMouseUp: onMouseUp,
     onMouseLeave: onMouseLeave
-  }, /*#__PURE__*/React__default.createElement(SelectionRect, null));
+  }, /*#__PURE__*/React__default['default'].createElement(SelectionRect, null));
 });
 
 var cjs = {exports: {}};
@@ -7290,11 +7319,11 @@ Object.defineProperty(DraggableCore$2, "__esModule", {
 });
 DraggableCore$2.default = void 0;
 
-var React = _interopRequireWildcard(React__default);
+var React = _interopRequireWildcard(React__default['default']);
 
 var _propTypes = _interopRequireDefault(propTypes.exports);
 
-var _reactDom = _interopRequireDefault(require$$2);
+var _reactDom = _interopRequireDefault(require$$2__default['default']);
 
 var _domFns = domFns;
 
@@ -7849,11 +7878,11 @@ Object.defineProperty(exports, "DraggableCore", {
 });
 exports.default = void 0;
 
-var React = _interopRequireWildcard(React__default);
+var React = _interopRequireWildcard(React__default['default']);
 
 var _propTypes = _interopRequireDefault(propTypes.exports);
 
-var _reactDom = _interopRequireDefault(require$$2);
+var _reactDom = _interopRequireDefault(require$$2__default['default']);
 
 var _classnames = _interopRequireDefault(classnames.exports);
 
@@ -8343,11 +8372,11 @@ var NodesSelection = (function (_ref) {
   var updateNodePosDiff = useStoreActions(function (actions) {
     return actions.updateNodePosDiff;
   });
-  var nodeRef = useRef(null);
-  var grid = useMemo(function () {
+  var nodeRef = React$1.useRef(null);
+  var grid = React$1.useMemo(function () {
     return snapToGrid ? snapGrid : [1, 1];
   }, [snapToGrid, snapGrid]);
-  var selectedNodes = useMemo(function () {
+  var selectedNodes = React$1.useMemo(function () {
     return selectedElements ? selectedElements.filter(isNode).map(function (selectedNode) {
       var matchingNode = nodes.find(function (node) {
         return node.id === selectedNode.id;
@@ -8357,12 +8386,12 @@ var NodesSelection = (function (_ref) {
       });
     }) : [];
   }, [selectedElements, nodes]);
-  var style = useMemo(function () {
+  var style = React$1.useMemo(function () {
     return {
       transform: "translate(".concat(tX, "px,").concat(tY, "px) scale(").concat(tScale, ")")
     };
   }, [tX, tY, tScale]);
-  var innerStyle = useMemo(function () {
+  var innerStyle = React$1.useMemo(function () {
     return {
       width: selectedNodesBbox.width,
       height: selectedNodesBbox.height,
@@ -8371,11 +8400,11 @@ var NodesSelection = (function (_ref) {
     };
   }, [selectedNodesBbox]);
 
-  var _onStart = useCallback(function (event) {
+  var _onStart = React$1.useCallback(function (event) {
     onSelectionDragStart === null || onSelectionDragStart === void 0 ? void 0 : onSelectionDragStart(event, selectedNodes);
   }, [onSelectionDragStart, selectedNodes]);
 
-  var _onDrag = useCallback(function (event, data) {
+  var _onDrag = React$1.useCallback(function (event, data) {
     if (onSelectionDrag) {
       onSelectionDrag(event, selectedNodes);
     }
@@ -8389,14 +8418,14 @@ var NodesSelection = (function (_ref) {
     });
   }, [onSelectionDrag, selectedNodes, updateNodePosDiff]);
 
-  var _onStop = useCallback(function (event) {
+  var _onStop = React$1.useCallback(function (event) {
     updateNodePosDiff({
       isDragging: false
     });
     onSelectionDragStop === null || onSelectionDragStop === void 0 ? void 0 : onSelectionDragStop(event, selectedNodes);
   }, [selectedNodes, onSelectionDragStop]);
 
-  var onContextMenu = useCallback(function (event) {
+  var onContextMenu = React$1.useCallback(function (event) {
     var selectedNodes = selectedElements ? selectedElements.filter(isNode).map(function (selectedNode) {
       return nodes.find(function (node) {
         return node.id === selectedNode.id;
@@ -8409,10 +8438,10 @@ var NodesSelection = (function (_ref) {
     return null;
   }
 
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default['default'].createElement("div", {
     className: "react-flow__nodesselection",
     style: style
-  }, /*#__PURE__*/React__default.createElement(ReactDraggable, {
+  }, /*#__PURE__*/React__default['default'].createElement(ReactDraggable, {
     scale: tScale,
     grid: grid,
     onStart: function onStart(event) {
@@ -8426,7 +8455,7 @@ var NodesSelection = (function (_ref) {
     },
     nodeRef: nodeRef,
     enableUserSelectHack: false
-  }, /*#__PURE__*/React__default.createElement("div", {
+  }, /*#__PURE__*/React__default['default'].createElement("div", {
     ref: nodeRef,
     className: "react-flow__nodesselection-rect",
     onContextMenu: onContextMenu,
@@ -8478,18 +8507,18 @@ var FlowRenderer = function FlowRenderer(_ref) {
     deleteKeyCode: deleteKeyCode,
     multiSelectionKeyCode: multiSelectionKeyCode
   });
-  var onClick = useCallback(function (event) {
+  var onClick = React$1.useCallback(function (event) {
     onPaneClick === null || onPaneClick === void 0 ? void 0 : onPaneClick(event);
     unsetNodesSelection();
     resetSelectedElements();
   }, [onPaneClick]);
-  var onContextMenu = useCallback(function (event) {
+  var onContextMenu = React$1.useCallback(function (event) {
     onPaneContextMenu === null || onPaneContextMenu === void 0 ? void 0 : onPaneContextMenu(event);
   }, [onPaneContextMenu]);
-  var onWheel = useCallback(function (event) {
+  var onWheel = React$1.useCallback(function (event) {
     onPaneScroll === null || onPaneScroll === void 0 ? void 0 : onPaneScroll(event);
   }, [onPaneScroll]);
-  return /*#__PURE__*/React__default.createElement(ZoomPane, {
+  return /*#__PURE__*/React__default['default'].createElement(ZoomPane, {
     onMove: onMove,
     onMoveStart: onMoveStart,
     onMoveEnd: onMoveEnd,
@@ -8507,14 +8536,14 @@ var FlowRenderer = function FlowRenderer(_ref) {
     translateExtent: translateExtent,
     zoomActivationKeyCode: zoomActivationKeyCode,
     preventScrolling: preventScrolling
-  }, children, /*#__PURE__*/React__default.createElement(UserSelection, {
+  }, children, /*#__PURE__*/React__default['default'].createElement(UserSelection, {
     selectionKeyPressed: selectionKeyPressed
-  }), nodesSelectionActive && /*#__PURE__*/React__default.createElement(NodesSelection, {
+  }), nodesSelectionActive && /*#__PURE__*/React__default['default'].createElement(NodesSelection, {
     onSelectionDragStart: onSelectionDragStart,
     onSelectionDrag: onSelectionDrag,
     onSelectionDragStop: onSelectionDragStop,
     onSelectionContextMenu: onSelectionContextMenu
-  }), /*#__PURE__*/React__default.createElement("div", {
+  }), /*#__PURE__*/React__default['default'].createElement("div", {
     className: "react-flow__pane",
     onClick: onClick,
     onContextMenu: onContextMenu,
@@ -8523,7 +8552,7 @@ var FlowRenderer = function FlowRenderer(_ref) {
 };
 
 FlowRenderer.displayName = 'FlowRenderer';
-var FlowRenderer$1 = /*#__PURE__*/memo(FlowRenderer);
+var FlowRenderer$1 = /*#__PURE__*/React$1.memo(FlowRenderer);
 
 var NodeRenderer = function NodeRenderer(props) {
   var transform = useStoreState(function (state) {
@@ -8559,12 +8588,12 @@ var NodeRenderer = function NodeRenderer(props) {
     width: width,
     height: height
   }, transform, true) : nodes;
-  var transformStyle = useMemo(function () {
+  var transformStyle = React$1.useMemo(function () {
     return {
       transform: "translate(".concat(transform[0], "px,").concat(transform[1], "px) scale(").concat(transform[2], ")")
     };
   }, [transform[0], transform[1], transform[2]]);
-  var resizeObserver = useMemo(function () {
+  var resizeObserver = React$1.useMemo(function () {
     if (typeof ResizeObserver === 'undefined') {
       return null;
     }
@@ -8579,7 +8608,7 @@ var NodeRenderer = function NodeRenderer(props) {
       updateNodeDimensions(updates);
     });
   }, []);
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default['default'].createElement("div", {
     className: "react-flow__nodes",
     style: transformStyle
   }, visibleNodes.map(function (node) {
@@ -8593,7 +8622,7 @@ var NodeRenderer = function NodeRenderer(props) {
     var isDraggable = !!(node.draggable || nodesDraggable && typeof node.draggable === 'undefined');
     var isSelectable = !!(node.selectable || elementsSelectable && typeof node.selectable === 'undefined');
     var isConnectable = !!(node.connectable || nodesConnectable && typeof node.connectable === 'undefined');
-    return /*#__PURE__*/React__default.createElement(NodeComponent, {
+    return /*#__PURE__*/React__default['default'].createElement(NodeComponent, {
       key: node.id,
       id: node.id,
       className: node.className,
@@ -8633,7 +8662,7 @@ var NodeRenderer = function NodeRenderer(props) {
 };
 
 NodeRenderer.displayName = 'NodeRenderer';
-var NodeRenderer$1 = /*#__PURE__*/memo(NodeRenderer);
+var NodeRenderer$1 = /*#__PURE__*/React$1.memo(NodeRenderer);
 
 var _excluded$3 = ["x", "y", "label", "labelStyle", "labelShowBg", "labelBgStyle", "labelBgPadding", "labelBgBorderRadius", "children", "className"];
 
@@ -8659,9 +8688,9 @@ var EdgeText = function EdgeText(_ref) {
       className = _ref.className,
       rest = _objectWithoutProperties(_ref, _excluded$3);
 
-  var edgeRef = useRef(null);
+  var edgeRef = React$1.useRef(null);
 
-  var _useState = useState({
+  var _useState = React$1.useState({
     x: 0,
     y: 0,
     width: 0,
@@ -8672,7 +8701,7 @@ var EdgeText = function EdgeText(_ref) {
       setEdgeTextBbox = _useState2[1];
 
   var edgeTextClasses = cc(['react-flow__edge-textwrapper', className]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (edgeRef.current) {
       var textBbox = edgeRef.current.getBBox();
       setEdgeTextBbox({
@@ -8688,10 +8717,10 @@ var EdgeText = function EdgeText(_ref) {
     return null;
   }
 
-  return /*#__PURE__*/React__default.createElement("g", _objectSpread$a({
+  return /*#__PURE__*/React__default['default'].createElement("g", _objectSpread$a({
     transform: "translate(".concat(x - edgeTextBbox.width / 2, " ").concat(y - edgeTextBbox.height / 2, ")"),
     className: edgeTextClasses
-  }, rest), labelShowBg && /*#__PURE__*/React__default.createElement("rect", {
+  }, rest), labelShowBg && /*#__PURE__*/React__default['default'].createElement("rect", {
     width: edgeTextBbox.width + 2 * labelBgPadding[0],
     x: -labelBgPadding[0],
     y: -labelBgPadding[1],
@@ -8700,7 +8729,7 @@ var EdgeText = function EdgeText(_ref) {
     style: labelBgStyle,
     rx: labelBgBorderRadius,
     ry: labelBgBorderRadius
-  }), /*#__PURE__*/React__default.createElement("text", {
+  }), /*#__PURE__*/React__default['default'].createElement("text", {
     className: "react-flow__edge-text",
     y: edgeTextBbox.height / 2,
     dy: "0.3em",
@@ -8709,7 +8738,7 @@ var EdgeText = function EdgeText(_ref) {
   }, label), children);
 };
 
-var EdgeText$1 = /*#__PURE__*/memo(EdgeText);
+var EdgeText$1 = /*#__PURE__*/React$1.memo(EdgeText);
 
 var getMarkerEnd = function getMarkerEnd(arrowHeadType, markerEndId) {
   if (typeof markerEndId !== 'undefined' && markerEndId) {
@@ -8718,16 +8747,16 @@ var getMarkerEnd = function getMarkerEnd(arrowHeadType, markerEndId) {
 
   return typeof arrowHeadType !== 'undefined' ? "url(#react-flow__".concat(arrowHeadType, ")") : 'none';
 };
-var LeftOrRight = [Position.Left, Position.Right];
+var LeftOrRight = [exports.Position.Left, exports.Position.Right];
 var getCenter = function getCenter(_ref) {
   var sourceX = _ref.sourceX,
       sourceY = _ref.sourceY,
       targetX = _ref.targetX,
       targetY = _ref.targetY,
       _ref$sourcePosition = _ref.sourcePosition,
-      sourcePosition = _ref$sourcePosition === void 0 ? Position.Bottom : _ref$sourcePosition,
+      sourcePosition = _ref$sourcePosition === void 0 ? exports.Position.Bottom : _ref$sourcePosition,
       _ref$targetPosition = _ref.targetPosition,
-      targetPosition = _ref$targetPosition === void 0 ? Position.Top : _ref$targetPosition;
+      targetPosition = _ref$targetPosition === void 0 ? exports.Position.Top : _ref$targetPosition;
   var sourceIsLeftOrRight = LeftOrRight.includes(sourcePosition);
   var targetIsLeftOrRight = LeftOrRight.includes(targetPosition); // we expect flows to be horizontal or vertical (all handles left or right respectively top or bottom)
   // a mixed edge is when one the source is on the left and the target is on the top for example.
@@ -8757,11 +8786,11 @@ function getBezierPath(_ref) {
   var sourceX = _ref.sourceX,
       sourceY = _ref.sourceY,
       _ref$sourcePosition = _ref.sourcePosition,
-      sourcePosition = _ref$sourcePosition === void 0 ? Position.Bottom : _ref$sourcePosition,
+      sourcePosition = _ref$sourcePosition === void 0 ? exports.Position.Bottom : _ref$sourcePosition,
       targetX = _ref.targetX,
       targetY = _ref.targetY,
       _ref$targetPosition = _ref.targetPosition,
-      targetPosition = _ref$targetPosition === void 0 ? Position.Top : _ref$targetPosition,
+      targetPosition = _ref$targetPosition === void 0 ? exports.Position.Top : _ref$targetPosition,
       centerX = _ref.centerX,
       centerY = _ref.centerY;
 
@@ -8775,7 +8804,7 @@ function getBezierPath(_ref) {
       _centerX = _getCenter2[0],
       _centerY = _getCenter2[1];
 
-  var leftAndRight = [Position.Left, Position.Right];
+  var leftAndRight = [exports.Position.Left, exports.Position.Right];
   var cX = typeof centerX !== 'undefined' ? centerX : _centerX;
   var cY = typeof centerY !== 'undefined' ? centerY : _centerY;
   var path = "M".concat(sourceX, ",").concat(sourceY, " C").concat(sourceX, ",").concat(cY, " ").concat(targetX, ",").concat(cY, " ").concat(targetX, ",").concat(targetY);
@@ -8790,15 +8819,15 @@ function getBezierPath(_ref) {
 
   return path;
 }
-var BezierEdge = /*#__PURE__*/memo(function (_ref2) {
+var BezierEdge = /*#__PURE__*/React$1.memo(function (_ref2) {
   var sourceX = _ref2.sourceX,
       sourceY = _ref2.sourceY,
       targetX = _ref2.targetX,
       targetY = _ref2.targetY,
       _ref2$sourcePosition = _ref2.sourcePosition,
-      sourcePosition = _ref2$sourcePosition === void 0 ? Position.Bottom : _ref2$sourcePosition,
+      sourcePosition = _ref2$sourcePosition === void 0 ? exports.Position.Bottom : _ref2$sourcePosition,
       _ref2$targetPosition = _ref2.targetPosition,
-      targetPosition = _ref2$targetPosition === void 0 ? Position.Top : _ref2$targetPosition,
+      targetPosition = _ref2$targetPosition === void 0 ? exports.Position.Top : _ref2$targetPosition,
       label = _ref2.label,
       labelStyle = _ref2.labelStyle,
       labelShowBg = _ref2.labelShowBg,
@@ -8829,7 +8858,7 @@ var BezierEdge = /*#__PURE__*/memo(function (_ref2) {
     targetY: targetY,
     targetPosition: targetPosition
   });
-  var text = label ? /*#__PURE__*/React__default.createElement(EdgeText$1, {
+  var text = label ? /*#__PURE__*/React__default['default'].createElement(EdgeText$1, {
     x: centerX,
     y: centerY,
     label: label,
@@ -8840,7 +8869,7 @@ var BezierEdge = /*#__PURE__*/memo(function (_ref2) {
     labelBgBorderRadius: labelBgBorderRadius
   }) : null;
   var markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("path", {
+  return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, /*#__PURE__*/React__default['default'].createElement("path", {
     style: style,
     d: path,
     className: "react-flow__edge-path",
@@ -8888,11 +8917,11 @@ function getSmoothStepPath(_ref) {
   var sourceX = _ref.sourceX,
       sourceY = _ref.sourceY,
       _ref$sourcePosition = _ref.sourcePosition,
-      sourcePosition = _ref$sourcePosition === void 0 ? Position.Bottom : _ref$sourcePosition,
+      sourcePosition = _ref$sourcePosition === void 0 ? exports.Position.Bottom : _ref$sourcePosition,
       targetX = _ref.targetX,
       targetY = _ref.targetY,
       _ref$targetPosition = _ref.targetPosition,
-      targetPosition = _ref$targetPosition === void 0 ? Position.Top : _ref$targetPosition,
+      targetPosition = _ref$targetPosition === void 0 ? exports.Position.Top : _ref$targetPosition,
       _ref$borderRadius = _ref.borderRadius,
       borderRadius = _ref$borderRadius === void 0 ? 5 : _ref$borderRadius,
       centerX = _ref.centerX,
@@ -8913,7 +8942,7 @@ function getSmoothStepPath(_ref) {
   var cornerWidth = Math.min(borderRadius, Math.abs(targetX - sourceX));
   var cornerHeight = Math.min(borderRadius, Math.abs(targetY - sourceY));
   var cornerSize = Math.min(cornerWidth, cornerHeight, offsetX, offsetY);
-  var leftAndRight = [Position.Left, Position.Right];
+  var leftAndRight = [exports.Position.Left, exports.Position.Right];
   var cX = typeof centerX !== 'undefined' ? centerX : _centerX;
   var cY = typeof centerY !== 'undefined' ? centerY : _centerY;
   var firstCornerPath = null;
@@ -8931,7 +8960,7 @@ function getSmoothStepPath(_ref) {
     if (sourceX <= targetX) {
       firstCornerPath = sourceY <= targetY ? rightTopCorner(cX, sourceY, cornerSize) : rightBottomCorner(cX, sourceY, cornerSize);
       secondCornerPath = sourceY <= targetY ? bottomLeftCorner(cX, targetY, cornerSize) : topLeftCorner(cX, targetY, cornerSize);
-    } else if (sourcePosition === Position.Right && targetPosition === Position.Left) {
+    } else if (sourcePosition === exports.Position.Right && targetPosition === exports.Position.Left) {
       // and sourceX > targetX
       firstCornerPath = sourceY <= targetY ? leftTopCorner(cX, sourceY, cornerSize) : leftBottomCorner(cX, sourceY, cornerSize);
       secondCornerPath = sourceY <= targetY ? bottomRightCorner(cX, targetY, cornerSize) : topRightCorner(cX, targetY, cornerSize);
@@ -8956,7 +8985,7 @@ function getSmoothStepPath(_ref) {
 
   return "M ".concat(sourceX, ",").concat(sourceY).concat(firstCornerPath).concat(secondCornerPath, "L ").concat(targetX, ",").concat(targetY);
 }
-var SmoothStepEdge = /*#__PURE__*/memo(function (_ref2) {
+var SmoothStepEdge = /*#__PURE__*/React$1.memo(function (_ref2) {
   var sourceX = _ref2.sourceX,
       sourceY = _ref2.sourceY,
       targetX = _ref2.targetX,
@@ -8969,9 +8998,9 @@ var SmoothStepEdge = /*#__PURE__*/memo(function (_ref2) {
       labelBgBorderRadius = _ref2.labelBgBorderRadius,
       style = _ref2.style,
       _ref2$sourcePosition = _ref2.sourcePosition,
-      sourcePosition = _ref2$sourcePosition === void 0 ? Position.Bottom : _ref2$sourcePosition,
+      sourcePosition = _ref2$sourcePosition === void 0 ? exports.Position.Bottom : _ref2$sourcePosition,
       _ref2$targetPosition = _ref2.targetPosition,
-      targetPosition = _ref2$targetPosition === void 0 ? Position.Top : _ref2$targetPosition,
+      targetPosition = _ref2$targetPosition === void 0 ? exports.Position.Top : _ref2$targetPosition,
       arrowHeadType = _ref2.arrowHeadType,
       markerEndId = _ref2.markerEndId,
       _ref2$borderRadius = _ref2.borderRadius,
@@ -8999,7 +9028,7 @@ var SmoothStepEdge = /*#__PURE__*/memo(function (_ref2) {
     borderRadius: borderRadius
   });
   var markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
-  var text = label ? /*#__PURE__*/React__default.createElement(EdgeText$1, {
+  var text = label ? /*#__PURE__*/React__default['default'].createElement(EdgeText$1, {
     x: centerX,
     y: centerY,
     label: label,
@@ -9009,7 +9038,7 @@ var SmoothStepEdge = /*#__PURE__*/memo(function (_ref2) {
     labelBgPadding: labelBgPadding,
     labelBgBorderRadius: labelBgBorderRadius
   }) : null;
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("path", {
+  return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, /*#__PURE__*/React__default['default'].createElement("path", {
     style: style,
     className: "react-flow__edge-path",
     d: path,
@@ -9025,21 +9054,21 @@ var ConnectionLine = (function (_ref) {
       connectionPositionX = _ref.connectionPositionX,
       connectionPositionY = _ref.connectionPositionY,
       _ref$connectionLineTy = _ref.connectionLineType,
-      connectionLineType = _ref$connectionLineTy === void 0 ? ConnectionLineType.Bezier : _ref$connectionLineTy,
+      connectionLineType = _ref$connectionLineTy === void 0 ? exports.ConnectionLineType.Bezier : _ref$connectionLineTy,
       _ref$nodes = _ref.nodes,
       nodes = _ref$nodes === void 0 ? [] : _ref$nodes,
       transform = _ref.transform,
       isConnectable = _ref.isConnectable,
       CustomConnectionLineComponent = _ref.CustomConnectionLineComponent;
 
-  var _useState = useState(null),
+  var _useState = React$1.useState(null),
       _useState2 = _slicedToArray$1(_useState, 2),
       sourceNode = _useState2[0],
       setSourceNode = _useState2[1];
 
   var nodeId = connectionNodeId;
   var handleId = connectionHandleId;
-  useEffect(function () {
+  React$1.useEffect(function () {
     var nextSourceNode = nodes.find(function (n) {
       return n.id === nodeId;
     }) || null;
@@ -9059,13 +9088,13 @@ var ConnectionLine = (function (_ref) {
   var sourceY = sourceNode.__rf.position.y + sourceHandleY;
   var targetX = (connectionPositionX - transform[0]) / transform[2];
   var targetY = (connectionPositionY - transform[1]) / transform[2];
-  var isRightOrLeft = (sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position) === Position.Left || (sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position) === Position.Right;
-  var targetPosition = isRightOrLeft ? Position.Left : Position.Top;
+  var isRightOrLeft = (sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position) === exports.Position.Left || (sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position) === exports.Position.Right;
+  var targetPosition = isRightOrLeft ? exports.Position.Left : exports.Position.Top;
 
   if (CustomConnectionLineComponent) {
-    return /*#__PURE__*/React__default.createElement("g", {
+    return /*#__PURE__*/React__default['default'].createElement("g", {
       className: "react-flow__connection"
-    }, /*#__PURE__*/React__default.createElement(CustomConnectionLineComponent, {
+    }, /*#__PURE__*/React__default['default'].createElement(CustomConnectionLineComponent, {
       sourceX: sourceX,
       sourceY: sourceY,
       sourcePosition: sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position,
@@ -9081,7 +9110,7 @@ var ConnectionLine = (function (_ref) {
 
   var dAttr = '';
 
-  if (connectionLineType === ConnectionLineType.Bezier) {
+  if (connectionLineType === exports.ConnectionLineType.Bezier) {
     dAttr = getBezierPath({
       sourceX: sourceX,
       sourceY: sourceY,
@@ -9090,7 +9119,7 @@ var ConnectionLine = (function (_ref) {
       targetY: targetY,
       targetPosition: targetPosition
     });
-  } else if (connectionLineType === ConnectionLineType.Step) {
+  } else if (connectionLineType === exports.ConnectionLineType.Step) {
     dAttr = getSmoothStepPath({
       sourceX: sourceX,
       sourceY: sourceY,
@@ -9100,7 +9129,7 @@ var ConnectionLine = (function (_ref) {
       targetPosition: targetPosition,
       borderRadius: 0
     });
-  } else if (connectionLineType === ConnectionLineType.SmoothStep) {
+  } else if (connectionLineType === exports.ConnectionLineType.SmoothStep) {
     dAttr = getSmoothStepPath({
       sourceX: sourceX,
       sourceY: sourceY,
@@ -9113,9 +9142,9 @@ var ConnectionLine = (function (_ref) {
     dAttr = "M".concat(sourceX, ",").concat(sourceY, " ").concat(targetX, ",").concat(targetY);
   }
 
-  return /*#__PURE__*/React__default.createElement("g", {
+  return /*#__PURE__*/React__default['default'].createElement("g", {
     className: "react-flow__connection"
-  }, /*#__PURE__*/React__default.createElement("path", {
+  }, /*#__PURE__*/React__default['default'].createElement("path", {
     d: dAttr,
     className: "react-flow__connection-path",
     style: connectionLineStyle
@@ -9125,7 +9154,7 @@ var ConnectionLine = (function (_ref) {
 var Marker = function Marker(_ref) {
   var id = _ref.id,
       children = _ref.children;
-  return /*#__PURE__*/React__default.createElement("marker", {
+  return /*#__PURE__*/React__default['default'].createElement("marker", {
     className: "react-flow__arrowhead",
     id: id,
     markerWidth: "12.5",
@@ -9139,18 +9168,18 @@ var Marker = function Marker(_ref) {
 
 var MarkerDefinitions = function MarkerDefinitions(_ref2) {
   var color = _ref2.color;
-  return /*#__PURE__*/React__default.createElement("defs", null, /*#__PURE__*/React__default.createElement(Marker, {
+  return /*#__PURE__*/React__default['default'].createElement("defs", null, /*#__PURE__*/React__default['default'].createElement(Marker, {
     id: "react-flow__arrowclosed"
-  }, /*#__PURE__*/React__default.createElement("polyline", {
+  }, /*#__PURE__*/React__default['default'].createElement("polyline", {
     stroke: color,
     strokeLinecap: "round",
     strokeLinejoin: "round",
     strokeWidth: "1",
     fill: color,
     points: "-5,-4 0,0 -5,4 -5,-4"
-  })), /*#__PURE__*/React__default.createElement(Marker, {
+  })), /*#__PURE__*/React__default['default'].createElement(Marker, {
     id: "react-flow__arrow"
-  }, /*#__PURE__*/React__default.createElement("polyline", {
+  }, /*#__PURE__*/React__default['default'].createElement("polyline", {
     stroke: color,
     strokeLinecap: "round",
     strokeLinejoin: "round",
@@ -9165,13 +9194,13 @@ MarkerDefinitions.displayName = 'MarkerDefinitions';
 function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$9(Object(source), true).forEach(function (key) { _defineProperty$2(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-var StepEdge = /*#__PURE__*/memo(function (props) {
-  return /*#__PURE__*/React__default.createElement(SmoothStepEdge, _objectSpread$9(_objectSpread$9({}, props), {}, {
+var StepEdge = /*#__PURE__*/React$1.memo(function (props) {
+  return /*#__PURE__*/React__default['default'].createElement(SmoothStepEdge, _objectSpread$9(_objectSpread$9({}, props), {}, {
     borderRadius: 0
   }));
 });
 
-var StraightEdge = /*#__PURE__*/memo(function (_ref) {
+var StraightEdge = /*#__PURE__*/React$1.memo(function (_ref) {
   var sourceX = _ref.sourceX,
       sourceY = _ref.sourceY,
       targetX = _ref.targetX,
@@ -9190,7 +9219,7 @@ var StraightEdge = /*#__PURE__*/memo(function (_ref) {
   var xOffset = Math.abs(targetX - sourceX) / 2;
   var centerX = targetX < sourceX ? targetX + xOffset : targetX - xOffset;
   var markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
-  var text = label ? /*#__PURE__*/React__default.createElement(EdgeText$1, {
+  var text = label ? /*#__PURE__*/React__default['default'].createElement(EdgeText$1, {
     x: centerX,
     y: centerY,
     label: label,
@@ -9200,7 +9229,7 @@ var StraightEdge = /*#__PURE__*/memo(function (_ref) {
     labelBgPadding: labelBgPadding,
     labelBgBorderRadius: labelBgBorderRadius
   }) : null;
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement("path", {
+  return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, /*#__PURE__*/React__default['default'].createElement("path", {
     style: style,
     className: "react-flow__edge-path",
     d: "M ".concat(sourceX, ",").concat(sourceY, "L ").concat(targetX, ",").concat(targetY),
@@ -9227,7 +9256,7 @@ function checkElementBelowIsValid(event, connectionMode, isTarget, nodeId, handl
   if (elementBelow && (elementBelowIsTarget || elementBelowIsSource)) {
     result.isHoveringHandle = true; // in strict mode we don't allow target to target or source to source connections
 
-    var isValid = connectionMode === ConnectionMode.Strict ? isTarget && elementBelowIsSource || !isTarget && elementBelowIsTarget : true;
+    var isValid = connectionMode === exports.ConnectionMode.Strict ? isTarget && elementBelowIsSource || !isTarget && elementBelowIsTarget : true;
 
     if (isValid) {
       var elementBelowNodeId = elementBelow.getAttribute('data-nodeid');
@@ -9348,14 +9377,14 @@ function onMouseDown(event, handleId, nodeId, setConnectionNodeId, setPosition, 
 }
 
 var shiftX = function shiftX(x, shift, position) {
-  if (position === Position.Left) return x - shift;
-  if (position === Position.Right) return x + shift;
+  if (position === exports.Position.Left) return x - shift;
+  if (position === exports.Position.Right) return x + shift;
   return x;
 };
 
 var shiftY = function shiftY(y, shift, position) {
-  if (position === Position.Top) return y - shift;
-  if (position === Position.Bottom) return y + shift;
+  if (position === exports.Position.Top) return y - shift;
+  if (position === exports.Position.Bottom) return y + shift;
   return y;
 };
 
@@ -9366,7 +9395,7 @@ var EdgeAnchor = function EdgeAnchor(_ref) {
       centerY = _ref.centerY,
       _ref$radius = _ref.radius,
       radius = _ref$radius === void 0 ? 10 : _ref$radius;
-  return /*#__PURE__*/React__default.createElement("circle", {
+  return /*#__PURE__*/React__default['default'].createElement("circle", {
     className: cc(['react-flow__edgeupdater', className]),
     cx: shiftX(centerX, radius, position),
     cy: shiftY(centerY, radius, position),
@@ -9432,7 +9461,7 @@ var wrapEdge = (function (EdgeComponent) {
       return state.connectionMode;
     });
 
-    var _useState = useState(false),
+    var _useState = React$1.useState(false),
         _useState2 = _slicedToArray$1(_useState, 2),
         updating = _useState2[0],
         setUpdating = _useState2[1];
@@ -9444,7 +9473,7 @@ var wrapEdge = (function (EdgeComponent) {
       inactive: inactive,
       updating: updating
     }]);
-    var edgeElement = useMemo(function () {
+    var edgeElement = React$1.useMemo(function () {
       var el = {
         id: id,
         source: source,
@@ -9466,7 +9495,7 @@ var wrapEdge = (function (EdgeComponent) {
 
       return el;
     }, [id, source, target, type, sourceHandleId, targetHandleId, data]);
-    var onEdgeClick = useCallback(function (event) {
+    var onEdgeClick = React$1.useCallback(function (event) {
       if (elementsSelectable) {
         unsetNodesSelection();
         addSelectedElements(edgeElement);
@@ -9474,22 +9503,22 @@ var wrapEdge = (function (EdgeComponent) {
 
       onClick === null || onClick === void 0 ? void 0 : onClick(event, edgeElement);
     }, [elementsSelectable, edgeElement, onClick]);
-    var onEdgeDoubleClickHandler = useCallback(function (event) {
+    var onEdgeDoubleClickHandler = React$1.useCallback(function (event) {
       onEdgeDoubleClick === null || onEdgeDoubleClick === void 0 ? void 0 : onEdgeDoubleClick(event, edgeElement);
     }, [edgeElement, onEdgeDoubleClick]);
-    var onEdgeContextMenu = useCallback(function (event) {
+    var onEdgeContextMenu = React$1.useCallback(function (event) {
       onContextMenu === null || onContextMenu === void 0 ? void 0 : onContextMenu(event, edgeElement);
     }, [edgeElement, onContextMenu]);
-    var onEdgeMouseEnter = useCallback(function (event) {
+    var onEdgeMouseEnter = React$1.useCallback(function (event) {
       onMouseEnter === null || onMouseEnter === void 0 ? void 0 : onMouseEnter(event, edgeElement);
     }, [edgeElement, onContextMenu]);
-    var onEdgeMouseMove = useCallback(function (event) {
+    var onEdgeMouseMove = React$1.useCallback(function (event) {
       onMouseMove === null || onMouseMove === void 0 ? void 0 : onMouseMove(event, edgeElement);
     }, [edgeElement, onContextMenu]);
-    var onEdgeMouseLeave = useCallback(function (event) {
+    var onEdgeMouseLeave = React$1.useCallback(function (event) {
       onMouseLeave === null || onMouseLeave === void 0 ? void 0 : onMouseLeave(event, edgeElement);
     }, [edgeElement, onContextMenu]);
-    var handleEdgeUpdater = useCallback(function (event, isSourceHandle) {
+    var handleEdgeUpdater = React$1.useCallback(function (event, isSourceHandle) {
       var nodeId = isSourceHandle ? target : source;
       var handleId = isSourceHandle ? targetHandleId : sourceHandleId;
 
@@ -9506,16 +9535,16 @@ var wrapEdge = (function (EdgeComponent) {
 
       onMouseDown(event, handleId, nodeId, setConnectionNodeId, setPosition, onConnectEdge, isTarget, isValidConnection, connectionMode, isSourceHandle ? 'target' : 'source', _onEdgeUpdate);
     }, [id, source, target, type, sourceHandleId, targetHandleId, setConnectionNodeId, setPosition, edgeElement]);
-    var onEdgeUpdaterSourceMouseDown = useCallback(function (event) {
+    var onEdgeUpdaterSourceMouseDown = React$1.useCallback(function (event) {
       handleEdgeUpdater(event, true);
     }, [id, source, sourceHandleId, handleEdgeUpdater]);
-    var onEdgeUpdaterTargetMouseDown = useCallback(function (event) {
+    var onEdgeUpdaterTargetMouseDown = React$1.useCallback(function (event) {
       handleEdgeUpdater(event, false);
     }, [id, target, targetHandleId, handleEdgeUpdater]);
-    var onEdgeUpdaterMouseEnter = useCallback(function () {
+    var onEdgeUpdaterMouseEnter = React$1.useCallback(function () {
       return setUpdating(true);
     }, [setUpdating]);
-    var onEdgeUpdaterMouseOut = useCallback(function () {
+    var onEdgeUpdaterMouseOut = React$1.useCallback(function () {
       return setUpdating(false);
     }, [setUpdating]);
 
@@ -9523,7 +9552,7 @@ var wrapEdge = (function (EdgeComponent) {
       return null;
     }
 
-    return /*#__PURE__*/React__default.createElement("g", {
+    return /*#__PURE__*/React__default['default'].createElement("g", {
       className: edgeClasses,
       onClick: onEdgeClick,
       onDoubleClick: onEdgeDoubleClickHandler,
@@ -9531,7 +9560,7 @@ var wrapEdge = (function (EdgeComponent) {
       onMouseEnter: onEdgeMouseEnter,
       onMouseMove: onEdgeMouseMove,
       onMouseLeave: onEdgeMouseLeave
-    }, /*#__PURE__*/React__default.createElement(EdgeComponent, {
+    }, /*#__PURE__*/React__default['default'].createElement(EdgeComponent, {
       id: id,
       source: source,
       target: target,
@@ -9555,20 +9584,20 @@ var wrapEdge = (function (EdgeComponent) {
       markerEndId: markerEndId,
       sourceHandleId: sourceHandleId,
       targetHandleId: targetHandleId
-    }), handleEdgeUpdate && /*#__PURE__*/React__default.createElement("g", {
+    }), handleEdgeUpdate && /*#__PURE__*/React__default['default'].createElement("g", {
       onMouseDown: onEdgeUpdaterSourceMouseDown,
       onMouseEnter: onEdgeUpdaterMouseEnter,
       onMouseOut: onEdgeUpdaterMouseOut
-    }, /*#__PURE__*/React__default.createElement(EdgeAnchor, {
+    }, /*#__PURE__*/React__default['default'].createElement(EdgeAnchor, {
       position: sourcePosition,
       centerX: sourceX,
       centerY: sourceY,
       radius: edgeUpdaterRadius
-    })), handleEdgeUpdate && /*#__PURE__*/React__default.createElement("g", {
+    })), handleEdgeUpdate && /*#__PURE__*/React__default['default'].createElement("g", {
       onMouseDown: onEdgeUpdaterTargetMouseDown,
       onMouseEnter: onEdgeUpdaterMouseEnter,
       onMouseOut: onEdgeUpdaterMouseOut
-    }, /*#__PURE__*/React__default.createElement(EdgeAnchor, {
+    }, /*#__PURE__*/React__default['default'].createElement(EdgeAnchor, {
       position: targetPosition,
       centerX: targetX,
       centerY: targetY,
@@ -9577,7 +9606,7 @@ var wrapEdge = (function (EdgeComponent) {
   };
 
   EdgeWrapper.displayName = 'EdgeWrapper';
-  return /*#__PURE__*/memo(EdgeWrapper);
+  return /*#__PURE__*/React$1.memo(EdgeWrapper);
 });
 
 function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -9607,25 +9636,25 @@ function getHandlePosition(position, node) {
   var height = (handle === null || handle === void 0 ? void 0 : handle.height) || node.__rf.height;
 
   switch (position) {
-    case Position.Top:
+    case exports.Position.Top:
       return {
         x: x + width / 2,
         y: y
       };
 
-    case Position.Right:
+    case exports.Position.Right:
       return {
         x: x + width,
         y: y + height / 2
       };
 
-    case Position.Bottom:
+    case exports.Position.Bottom:
       return {
         x: x + width / 2,
         y: y + height
       };
 
-    case Position.Left:
+    case exports.Position.Left:
       return {
         x: x,
         y: y + height / 2
@@ -9728,7 +9757,7 @@ var Edge = function Edge(_ref) {
       sourceNode = _getSourceTargetNodes.sourceNode,
       targetNode = _getSourceTargetNodes.targetNode;
 
-  var onConnectEdge = useCallback(function (connection) {
+  var onConnectEdge = React$1.useCallback(function (connection) {
     var _props$onEdgeUpdate;
 
     (_props$onEdgeUpdate = props.onEdgeUpdate) === null || _props$onEdgeUpdate === void 0 ? void 0 : _props$onEdgeUpdate.call(props, edge, connection);
@@ -9753,11 +9782,11 @@ var Edge = function Edge(_ref) {
   var EdgeComponent = props.edgeTypes[edgeType] || props.edgeTypes["default"];
   var targetNodeBounds = targetNode.__rf.handleBounds; // when connection type is loose we can define all handles as sources
 
-  var targetNodeHandles = connectionMode === ConnectionMode.Strict ? targetNodeBounds.target : targetNodeBounds.target || targetNodeBounds.source;
+  var targetNodeHandles = connectionMode === exports.ConnectionMode.Strict ? targetNodeBounds.target : targetNodeBounds.target || targetNodeBounds.source;
   var sourceHandle = getHandle(sourceNode.__rf.handleBounds.source, sourceHandleId);
   var targetHandle = getHandle(targetNodeHandles, targetHandleId);
-  var sourcePosition = sourceHandle ? sourceHandle.position : Position.Bottom;
-  var targetPosition = targetHandle ? targetHandle.position : Position.Top;
+  var sourcePosition = sourceHandle ? sourceHandle.position : exports.Position.Bottom;
+  var targetPosition = targetHandle ? targetHandle.position : exports.Position.Top;
 
   if (!sourceHandle) {
     console.warn("couldn't create edge for source handle id: ".concat(sourceHandleId, "; edge id: ").concat(edge.id));
@@ -9796,7 +9825,7 @@ var Edge = function Edge(_ref) {
   var isSelected = (selectedElements === null || selectedElements === void 0 ? void 0 : selectedElements.some(function (elm) {
     return isEdge(elm) && elm.id === edge.id;
   })) || false;
-  return /*#__PURE__*/React__default.createElement(EdgeComponent, {
+  return /*#__PURE__*/React__default['default'].createElement(EdgeComponent, {
     key: edge.id,
     id: edge.id,
     className: edge.className,
@@ -9888,16 +9917,16 @@ var EdgeRenderer = function EdgeRenderer(props) {
       onlyRenderVisibleElements = props.onlyRenderVisibleElements;
   var transformStyle = "translate(".concat(transform[0], ",").concat(transform[1], ") scale(").concat(transform[2], ")");
   var renderConnectionLine = connectionNodeId && connectionHandleType;
-  return /*#__PURE__*/React__default.createElement("svg", {
+  return /*#__PURE__*/React__default['default'].createElement("svg", {
     width: width,
     height: height,
     className: "react-flow__edges"
-  }, /*#__PURE__*/React__default.createElement(MarkerDefinitions, {
+  }, /*#__PURE__*/React__default['default'].createElement(MarkerDefinitions, {
     color: arrowHeadColor
-  }), /*#__PURE__*/React__default.createElement("g", {
+  }), /*#__PURE__*/React__default['default'].createElement("g", {
     transform: transformStyle
   }, edges.map(function (edge) {
-    return /*#__PURE__*/React__default.createElement(Edge, {
+    return /*#__PURE__*/React__default['default'].createElement(Edge, {
       key: edge.id,
       edge: edge,
       props: props,
@@ -9909,7 +9938,7 @@ var EdgeRenderer = function EdgeRenderer(props) {
       height: height,
       onlyRenderVisibleElements: onlyRenderVisibleElements
     });
-  }), renderConnectionLine && /*#__PURE__*/React__default.createElement(ConnectionLine, {
+  }), renderConnectionLine && /*#__PURE__*/React__default['default'].createElement(ConnectionLine, {
     nodes: nodes,
     connectionNodeId: connectionNodeId,
     connectionHandleId: connectionHandleId,
@@ -9925,7 +9954,7 @@ var EdgeRenderer = function EdgeRenderer(props) {
 };
 
 EdgeRenderer.displayName = 'EdgeRenderer';
-var EdgeRenderer$1 = /*#__PURE__*/memo(EdgeRenderer);
+var EdgeRenderer$1 = /*#__PURE__*/React$1.memo(EdgeRenderer);
 
 var DEFAULT_PADDING = 0.1;
 var initialZoomPanHelper = {
@@ -9953,7 +9982,7 @@ var useZoomPanHelper = function useZoomPanHelper() {
   var d3Selection = useStoreState(function (s) {
     return s.d3Selection;
   });
-  var zoomPanHelperFunctions = useMemo(function () {
+  var zoomPanHelperFunctions = React$1.useMemo(function () {
     if (d3Selection && d3Zoom) {
       return {
         zoomIn: function zoomIn() {
@@ -10148,7 +10177,7 @@ var GraphView = function GraphView(_ref) {
       edgeUpdaterRadius = _ref.edgeUpdaterRadius,
       onEdgeUpdateStart = _ref.onEdgeUpdateStart,
       onEdgeUpdateEnd = _ref.onEdgeUpdateEnd;
-  var isInitialized = useRef(false);
+  var isInitialized = React$1.useRef(false);
   var setOnConnect = useStoreActions(function (actions) {
     return actions.setOnConnect;
   });
@@ -10201,7 +10230,7 @@ var GraphView = function GraphView(_ref) {
       _fitView = _useZoomPanHelper.fitView,
       initialized = _useZoomPanHelper.initialized;
 
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (!isInitialized.current && initialized) {
       if (onLoad) {
         onLoad({
@@ -10224,77 +10253,77 @@ var GraphView = function GraphView(_ref) {
       isInitialized.current = true;
     }
   }, [onLoad, zoomIn, zoomOut, zoomTo, transform, _fitView, initialized]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (onConnect) {
       setOnConnect(onConnect);
     }
   }, [onConnect]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (onConnectStart) {
       setOnConnectStart(onConnectStart);
     }
   }, [onConnectStart]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (onConnectStop) {
       setOnConnectStop(onConnectStop);
     }
   }, [onConnectStop]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (onConnectEnd) {
       setOnConnectEnd(onConnectEnd);
     }
   }, [onConnectEnd]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof snapToGrid !== 'undefined') {
       setSnapToGrid(snapToGrid);
     }
   }, [snapToGrid]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof snapGrid !== 'undefined') {
       setSnapGrid(snapGrid);
     }
   }, [snapGrid]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof nodesDraggable !== 'undefined') {
       setNodesDraggable(nodesDraggable);
     }
   }, [nodesDraggable]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof nodesConnectable !== 'undefined') {
       setNodesConnectable(nodesConnectable);
     }
   }, [nodesConnectable]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof elementsSelectable !== 'undefined') {
       setElementsSelectable(elementsSelectable);
     }
   }, [elementsSelectable]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof minZoom !== 'undefined') {
       setMinZoom(minZoom);
     }
   }, [minZoom]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof maxZoom !== 'undefined') {
       setMaxZoom(maxZoom);
     }
   }, [maxZoom]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof translateExtent !== 'undefined') {
       setTranslateExtent(translateExtent);
     }
   }, [translateExtent]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof nodeExtent !== 'undefined') {
       setNodeExtent(nodeExtent);
     }
   }, [nodeExtent]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     if (typeof connectionMode !== 'undefined') {
       setConnectionMode(connectionMode);
     }
   }, [connectionMode]);
-  return /*#__PURE__*/React__default.createElement(FlowRenderer$1, {
+  return /*#__PURE__*/React__default['default'].createElement(FlowRenderer$1, {
     onPaneClick: onPaneClick,
     onPaneContextMenu: onPaneContextMenu,
     onPaneScroll: onPaneScroll,
@@ -10322,7 +10351,7 @@ var GraphView = function GraphView(_ref) {
     onSelectionDragStop: onSelectionDragStop,
     onSelectionContextMenu: onSelectionContextMenu,
     preventScrolling: preventScrolling
-  }, /*#__PURE__*/React__default.createElement(NodeRenderer$1, {
+  }, /*#__PURE__*/React__default['default'].createElement(NodeRenderer$1, {
     nodeTypes: nodeTypes,
     onElementClick: onElementClick,
     onNodeDoubleClick: onNodeDoubleClick,
@@ -10337,7 +10366,7 @@ var GraphView = function GraphView(_ref) {
     snapToGrid: snapToGrid,
     snapGrid: snapGrid,
     onlyRenderVisibleElements: onlyRenderVisibleElements
-  }), /*#__PURE__*/React__default.createElement(EdgeRenderer$1, {
+  }), /*#__PURE__*/React__default['default'].createElement(EdgeRenderer$1, {
     edgeTypes: edgeTypes,
     onElementClick: onElementClick,
     onEdgeDoubleClick: onEdgeDoubleClick,
@@ -10360,20 +10389,20 @@ var GraphView = function GraphView(_ref) {
 };
 
 GraphView.displayName = 'GraphView';
-var GraphView$1 = /*#__PURE__*/memo(GraphView);
+var GraphView$1 = /*#__PURE__*/React$1.memo(GraphView);
 
 var ElementUpdater = function ElementUpdater(_ref) {
   var elements = _ref.elements;
   var setElements = useStoreActions(function (actions) {
     return actions.setElements;
   });
-  useEffect(function () {
+  React$1.useEffect(function () {
     setElements(elements);
   }, [elements]);
   return null;
 };
 
-var NodeIdContext = /*#__PURE__*/createContext(null);
+var NodeIdContext = /*#__PURE__*/React$1.createContext(null);
 var Provider = NodeIdContext.Provider;
 NodeIdContext.Consumer;
 
@@ -10391,7 +10420,7 @@ var Handle = function Handle(_ref) {
   var _ref$type = _ref.type,
       type = _ref$type === void 0 ? 'source' : _ref$type,
       _ref$position = _ref.position,
-      position = _ref$position === void 0 ? Position.Top : _ref$position,
+      position = _ref$position === void 0 ? exports.Position.Top : _ref$position,
       _ref$isValidConnectio = _ref.isValidConnection,
       isValidConnection = _ref$isValidConnectio === void 0 ? alwaysValid : _ref$isValidConnectio,
       _ref$isConnectable = _ref.isConnectable,
@@ -10402,7 +10431,7 @@ var Handle = function Handle(_ref) {
       className = _ref.className,
       rest = _objectWithoutProperties(_ref, _excluded$2);
 
-  var nodeId = useContext(NodeIdContext);
+  var nodeId = React$1.useContext(NodeIdContext);
   var setPosition = useStoreActions(function (actions) {
     return actions.setConnectionPosition;
   });
@@ -10426,11 +10455,11 @@ var Handle = function Handle(_ref) {
   });
   var handleId = id || null;
   var isTarget = type === 'target';
-  var onConnectExtended = useCallback(function (params) {
+  var onConnectExtended = React$1.useCallback(function (params) {
     onConnectAction === null || onConnectAction === void 0 ? void 0 : onConnectAction(params);
     onConnect === null || onConnect === void 0 ? void 0 : onConnect(params);
   }, [onConnectAction, onConnect]);
-  var onMouseDownHandler = useCallback(function (event) {
+  var onMouseDownHandler = React$1.useCallback(function (event) {
     onMouseDown(event, handleId, nodeId, setConnectionNodeId, setPosition, onConnectExtended, isTarget, isValidConnection, connectionMode, undefined, undefined, onConnectStart, onConnectStop, onConnectEnd);
   }, [handleId, nodeId, setConnectionNodeId, setPosition, onConnectExtended, isTarget, isValidConnection, connectionMode, onConnectStart, onConnectStop, onConnectEnd]);
   var handleClasses = cc(['react-flow__handle', "react-flow__handle-".concat(position), 'nodrag', className, {
@@ -10438,7 +10467,7 @@ var Handle = function Handle(_ref) {
     target: isTarget,
     connectable: isConnectable
   }]);
-  return /*#__PURE__*/React__default.createElement("div", _objectSpread$7({
+  return /*#__PURE__*/React__default['default'].createElement("div", _objectSpread$7({
     "data-handleid": handleId,
     "data-nodeid": nodeId,
     "data-handlepos": position,
@@ -10448,20 +10477,20 @@ var Handle = function Handle(_ref) {
 };
 
 Handle.displayName = 'Handle';
-var Handle$1 = /*#__PURE__*/memo(Handle);
+var Handle$1 = /*#__PURE__*/React$1.memo(Handle);
 
 var DefaultNode = function DefaultNode(_ref) {
   var data = _ref.data,
       isConnectable = _ref.isConnectable,
       _ref$targetPosition = _ref.targetPosition,
-      targetPosition = _ref$targetPosition === void 0 ? Position.Top : _ref$targetPosition,
+      targetPosition = _ref$targetPosition === void 0 ? exports.Position.Top : _ref$targetPosition,
       _ref$sourcePosition = _ref.sourcePosition,
-      sourcePosition = _ref$sourcePosition === void 0 ? Position.Bottom : _ref$sourcePosition;
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Handle$1, {
+      sourcePosition = _ref$sourcePosition === void 0 ? exports.Position.Bottom : _ref$sourcePosition;
+  return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, /*#__PURE__*/React__default['default'].createElement(Handle$1, {
     type: "target",
     position: targetPosition,
     isConnectable: isConnectable
-  }), data.label, /*#__PURE__*/React__default.createElement(Handle$1, {
+  }), data.label, /*#__PURE__*/React__default['default'].createElement(Handle$1, {
     type: "source",
     position: sourcePosition,
     isConnectable: isConnectable
@@ -10469,14 +10498,14 @@ var DefaultNode = function DefaultNode(_ref) {
 };
 
 DefaultNode.displayName = 'DefaultNode';
-var DefaultNode$1 = /*#__PURE__*/memo(DefaultNode);
+var DefaultNode$1 = /*#__PURE__*/React$1.memo(DefaultNode);
 
 var InputNode = function InputNode(_ref) {
   var data = _ref.data,
       isConnectable = _ref.isConnectable,
       _ref$sourcePosition = _ref.sourcePosition,
-      sourcePosition = _ref$sourcePosition === void 0 ? Position.Bottom : _ref$sourcePosition;
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, data.label, /*#__PURE__*/React__default.createElement(Handle$1, {
+      sourcePosition = _ref$sourcePosition === void 0 ? exports.Position.Bottom : _ref$sourcePosition;
+  return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, data.label, /*#__PURE__*/React__default['default'].createElement(Handle$1, {
     type: "source",
     position: sourcePosition,
     isConnectable: isConnectable
@@ -10484,14 +10513,14 @@ var InputNode = function InputNode(_ref) {
 };
 
 InputNode.displayName = 'InputNode';
-var InputNode$1 = /*#__PURE__*/memo(InputNode);
+var InputNode$1 = /*#__PURE__*/React$1.memo(InputNode);
 
 var OutputNode = function OutputNode(_ref) {
   var data = _ref.data,
       isConnectable = _ref.isConnectable,
       _ref$targetPosition = _ref.targetPosition,
-      targetPosition = _ref$targetPosition === void 0 ? Position.Top : _ref$targetPosition;
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Handle$1, {
+      targetPosition = _ref$targetPosition === void 0 ? exports.Position.Top : _ref$targetPosition;
+  return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, /*#__PURE__*/React__default['default'].createElement(Handle$1, {
     type: "target",
     position: targetPosition,
     isConnectable: isConnectable
@@ -10499,7 +10528,7 @@ var OutputNode = function OutputNode(_ref) {
 };
 
 OutputNode.displayName = 'OutputNode';
-var OutputNode$1 = /*#__PURE__*/memo(OutputNode);
+var OutputNode$1 = /*#__PURE__*/React$1.memo(OutputNode);
 
 function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -10548,8 +10577,8 @@ var wrapNode = (function (NodeComponent) {
     var unsetNodesSelection = useStoreActions(function (actions) {
       return actions.unsetNodesSelection;
     });
-    var nodeElement = useRef(null);
-    var node = useMemo(function () {
+    var nodeElement = React$1.useRef(null);
+    var node = React$1.useMemo(function () {
       return {
         id: id,
         type: type,
@@ -10560,10 +10589,10 @@ var wrapNode = (function (NodeComponent) {
         data: data
       };
     }, [id, type, xPos, yPos, data]);
-    var grid = useMemo(function () {
+    var grid = React$1.useMemo(function () {
       return snapToGrid ? snapGrid : [1, 1];
     }, [snapToGrid, snapGrid]);
-    var nodeStyle = useMemo(function () {
+    var nodeStyle = React$1.useMemo(function () {
       return _objectSpread$6({
         zIndex: selected ? 10 : 3,
         transform: "translate(".concat(xPos, "px,").concat(yPos, "px)"),
@@ -10572,7 +10601,7 @@ var wrapNode = (function (NodeComponent) {
         opacity: isInitialized ? 1 : 0
       }, style);
     }, [selected, xPos, yPos, isSelectable, isDraggable, onClick, isInitialized, style, onMouseEnter, onMouseMove, onMouseLeave]);
-    var onMouseEnterHandler = useMemo(function () {
+    var onMouseEnterHandler = React$1.useMemo(function () {
       if (!onMouseEnter || isDragging) {
         return;
       }
@@ -10581,7 +10610,7 @@ var wrapNode = (function (NodeComponent) {
         return onMouseEnter(event, node);
       };
     }, [onMouseEnter, isDragging, node]);
-    var onMouseMoveHandler = useMemo(function () {
+    var onMouseMoveHandler = React$1.useMemo(function () {
       if (!onMouseMove || isDragging) {
         return;
       }
@@ -10590,7 +10619,7 @@ var wrapNode = (function (NodeComponent) {
         return onMouseMove(event, node);
       };
     }, [onMouseMove, isDragging, node]);
-    var onMouseLeaveHandler = useMemo(function () {
+    var onMouseLeaveHandler = React$1.useMemo(function () {
       if (!onMouseLeave || isDragging) {
         return;
       }
@@ -10599,7 +10628,7 @@ var wrapNode = (function (NodeComponent) {
         return onMouseLeave(event, node);
       };
     }, [onMouseLeave, isDragging, node]);
-    var onContextMenuHandler = useMemo(function () {
+    var onContextMenuHandler = React$1.useMemo(function () {
       if (!onContextMenu) {
         return;
       }
@@ -10608,7 +10637,7 @@ var wrapNode = (function (NodeComponent) {
         return onContextMenu(event, node);
       };
     }, [onContextMenu, node]);
-    var onSelectNodeHandler = useCallback(function (event) {
+    var onSelectNodeHandler = React$1.useCallback(function (event) {
       if (!isDraggable) {
         if (isSelectable) {
           unsetNodesSelection();
@@ -10621,7 +10650,7 @@ var wrapNode = (function (NodeComponent) {
         onClick === null || onClick === void 0 ? void 0 : onClick(event, node);
       }
     }, [isSelectable, selected, isDraggable, onClick, node]);
-    var onDragStart = useCallback(function (event) {
+    var onDragStart = React$1.useCallback(function (event) {
       onNodeDragStart === null || onNodeDragStart === void 0 ? void 0 : onNodeDragStart(event, node);
 
       if (selectNodesOnDrag && isSelectable) {
@@ -10635,7 +10664,7 @@ var wrapNode = (function (NodeComponent) {
         addSelectedElements([]);
       }
     }, [node, selected, selectNodesOnDrag, isSelectable, onNodeDragStart]);
-    var onDrag = useCallback(function (event, draggableData) {
+    var onDrag = React$1.useCallback(function (event, draggableData) {
       if (onNodeDrag) {
         node.position.x += draggableData.deltaX;
         node.position.y += draggableData.deltaY;
@@ -10651,7 +10680,7 @@ var wrapNode = (function (NodeComponent) {
         isDragging: true
       });
     }, [id, node, onNodeDrag]);
-    var onDragStop = useCallback(function (event) {
+    var onDragStop = React$1.useCallback(function (event) {
       // onDragStop also gets called when user just clicks on a node.
       // Because of that we set dragging to true inside the onDrag handler and handle the click here
       if (!isDragging) {
@@ -10669,10 +10698,10 @@ var wrapNode = (function (NodeComponent) {
       });
       onNodeDragStop === null || onNodeDragStop === void 0 ? void 0 : onNodeDragStop(event, node);
     }, [node, isSelectable, selectNodesOnDrag, onClick, onNodeDragStop, isDragging, selected]);
-    var onNodeDoubleClickHandler = useCallback(function (event) {
+    var onNodeDoubleClickHandler = React$1.useCallback(function (event) {
       onNodeDoubleClick === null || onNodeDoubleClick === void 0 ? void 0 : onNodeDoubleClick(event, node);
     }, [node, onNodeDoubleClick]);
-    useLayoutEffect(function () {
+    React$1.useLayoutEffect(function () {
       if (nodeElement.current && !isHidden) {
         updateNodeDimensions([{
           id: id,
@@ -10681,7 +10710,7 @@ var wrapNode = (function (NodeComponent) {
         }]);
       }
     }, [id, isHidden, sourcePosition, targetPosition]);
-    useEffect(function () {
+    React$1.useEffect(function () {
       if (nodeElement.current) {
         var currNode = nodeElement.current;
         resizeObserver === null || resizeObserver === void 0 ? void 0 : resizeObserver.observe(currNode);
@@ -10699,7 +10728,7 @@ var wrapNode = (function (NodeComponent) {
       selected: selected,
       selectable: isSelectable
     }]);
-    return /*#__PURE__*/React__default.createElement(DraggableCore_1, {
+    return /*#__PURE__*/React__default['default'].createElement(DraggableCore_1, {
       onStart: onDragStart,
       onDrag: onDrag,
       onStop: onDragStop,
@@ -10709,7 +10738,7 @@ var wrapNode = (function (NodeComponent) {
       nodeRef: nodeElement,
       grid: grid,
       enableUserSelectHack: false
-    }, /*#__PURE__*/React__default.createElement("div", {
+    }, /*#__PURE__*/React__default['default'].createElement("div", {
       className: nodeClasses,
       ref: nodeElement,
       style: nodeStyle,
@@ -10720,9 +10749,9 @@ var wrapNode = (function (NodeComponent) {
       onClick: onSelectNodeHandler,
       onDoubleClick: onNodeDoubleClickHandler,
       "data-id": id
-    }, /*#__PURE__*/React__default.createElement(Provider, {
+    }, /*#__PURE__*/React__default['default'].createElement(Provider, {
       value: id
-    }, /*#__PURE__*/React__default.createElement(NodeComponent, {
+    }, /*#__PURE__*/React__default['default'].createElement(NodeComponent, {
       id: id,
       data: data,
       type: type,
@@ -10737,7 +10766,7 @@ var wrapNode = (function (NodeComponent) {
   };
 
   NodeWrapper.displayName = 'NodeWrapper';
-  return /*#__PURE__*/memo(NodeWrapper);
+  return /*#__PURE__*/React$1.memo(NodeWrapper);
 });
 
 function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -10767,7 +10796,7 @@ var SelectionListener = (function (_ref) {
   var selectedElements = useStoreState(function (s) {
     return s.selectedElements;
   });
-  useEffect(function () {
+  React$1.useEffect(function () {
     onSelectionChange(selectedElements);
   }, [selectedElements]);
   return null;
@@ -11248,7 +11277,7 @@ var initialState = {
     x: 0,
     y: 0
   },
-  connectionMode: ConnectionMode.Strict,
+  connectionMode: exports.ConnectionMode.Strict,
   snapGrid: [15, 15],
   snapToGrid: false,
   nodesDraggable: true,
@@ -11261,8 +11290,8 @@ var store = configureStore(initialState);
 
 var Wrapper = function Wrapper(_ref) {
   var children = _ref.children;
-  var contextValue = useContext(ReactReduxContext);
-  var isWrappedWithReactFlowProvider = useMemo(function () {
+  var contextValue = React$1.useContext(ReactReduxContext);
+  var isWrappedWithReactFlowProvider = React$1.useMemo(function () {
     var _contextValue$store, _contextValue$store$g;
 
     return contextValue === null || contextValue === void 0 ? void 0 : (_contextValue$store = contextValue.store) === null || _contextValue$store === void 0 ? void 0 : (_contextValue$store$g = _contextValue$store.getState()) === null || _contextValue$store$g === void 0 ? void 0 : _contextValue$store$g.reactFlowVersion;
@@ -11271,48 +11300,15 @@ var Wrapper = function Wrapper(_ref) {
   if (isWrappedWithReactFlowProvider) {
     // we need to wrap it with a fragment because it's not allowed for children to be a ReactNode
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/18051
-    return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, children);
+    return /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, children);
   }
 
-  return /*#__PURE__*/React__default.createElement(Provider$1, {
+  return /*#__PURE__*/React__default['default'].createElement(Provider$1, {
     store: store
   }, children);
 };
 
 Wrapper.displayName = 'ReactFlowWrapper';
-
-function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') { return; }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css_248z$1 = ".react-flow{width:100%;height:100%;position:relative;overflow:hidden}.react-flow__pane,.react-flow__renderer,.react-flow__selectionpane{width:100%;height:100%;position:absolute;top:0;left:0}.react-flow__pane{z-index:1}.react-flow__renderer{z-index:4}.react-flow__selectionpane{z-index:5}.react-flow__edges,.react-flow__selection{position:absolute;top:0;left:0}.react-flow__edges{pointer-events:none;z-index:2}.react-flow__edge{pointer-events:visibleStroke;}.react-flow__edge.inactive{pointer-events:none}@-webkit-keyframes dashdraw{0%{stroke-dashoffset:10}}@keyframes dashdraw{0%{stroke-dashoffset:10}}.react-flow__edge-path{fill:none}.react-flow__edge-textwrapper{pointer-events:all}.react-flow__edge-text{pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.react-flow__connection{pointer-events:none;}.react-flow__connection .animated{stroke-dasharray:5;-webkit-animation:dashdraw .5s linear infinite;animation:dashdraw .5s linear infinite}.react-flow__connection-path{fill:none}.react-flow__nodes{width:100%;height:100%;pointer-events:none;z-index:3}.react-flow__node,.react-flow__nodes{position:absolute;transform-origin:0 0}.react-flow__node{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;pointer-events:all}.react-flow__nodesselection{z-index:3;position:absolute;width:100%;height:100%;top:0;left:0;transform-origin:left top;pointer-events:none;}.react-flow__nodesselection-rect{position:absolute;pointer-events:all;cursor:-webkit-grab;cursor:grab}.react-flow__handle{pointer-events:none;}.react-flow__handle.connectable{pointer-events:all}.react-flow__handle-bottom{top:auto;left:50%;bottom:-4px;transform:translate(-50%)}.react-flow__handle-top{left:50%;top:-4px;transform:translate(-50%)}.react-flow__handle-left{top:50%;left:-4px;transform:translateY(-50%)}.react-flow__handle-right{right:-4px;top:50%;transform:translateY(-50%)}.react-flow__edgeupdater{cursor:move;pointer-events:all}.react-flow__background{position:absolute;top:0;left:0;width:100%;height:100%}.react-flow__controls{position:absolute;z-index:5;bottom:10px;left:10px;}.react-flow__controls-button{width:24px;height:24px;border:none;}.react-flow__controls-button svg{width:100%}.react-flow__minimap{position:absolute;z-index:5;bottom:10px;right:10px}";
-styleInject(css_248z$1);
-
-var css_248z = ".react-flow__selection{background:rgba(0,89,220,.08);border:1px dotted rgba(0,89,220,.8)}.react-flow__edge.selected .react-flow__edge-path{stroke:#555}.react-flow__edge.animated path{stroke-dasharray:5;-webkit-animation:dashdraw .5s linear infinite;animation:dashdraw .5s linear infinite}.react-flow__edge.updating .react-flow__edge-path{stroke:#777}.react-flow__edge-path{stroke:#b1b1b7;stroke-width:1}.react-flow__edge-text{font-size:10px}.react-flow__edge-textbg{fill:#fff}.react-flow__connection-path{stroke:#b1b1b7;stroke-width:1}.react-flow__node{cursor:-webkit-grab;cursor:grab}.react-flow__node-default,.react-flow__node-input,.react-flow__node-output{padding:10px;border-radius:3px;width:150px;font-size:12px;color:#222;text-align:center;border-width:1px;border-style:solid}.react-flow__node-default.selectable:hover,.react-flow__node-input.selectable:hover,.react-flow__node-output.selectable:hover{box-shadow:0 1px 4px 1px rgba(0,0,0,.08)}.react-flow__node-input{background:#fff;border-color:#0041d0;}.react-flow__node-input.selected,.react-flow__node-input.selected:hover{box-shadow:0 0 0 .5px #0041d0}.react-flow__node-input .react-flow__handle{background:#0041d0}.react-flow__node-default{background:#fff;border-color:#1a192b;}.react-flow__node-default.selected,.react-flow__node-default.selected:hover{box-shadow:0 0 0 .5px #1a192b}.react-flow__node-default .react-flow__handle{background:#1a192b}.react-flow__node-output{background:#fff;border-color:#ff0072;}.react-flow__node-output.selected,.react-flow__node-output.selected:hover{box-shadow:0 0 0 .5px #ff0072}.react-flow__node-output .react-flow__handle{background:#ff0072}.react-flow__nodesselection-rect{background:rgba(0,89,220,.08);border:1px dotted rgba(0,89,220,.8)}.react-flow__handle{position:absolute;width:6px;height:6px;background:#555;border:1px solid #fff;border-radius:100%;}.react-flow__handle.connectable{cursor:crosshair}.react-flow__minimap{background-color:#fff}.react-flow__controls{box-shadow:0 0 2px 1px rgba(0,0,0,.08);}.react-flow__controls-button{background:#fefefe;border-bottom:1px solid #eee;box-sizing:content-box;display:flex;justify-content:center;align-items:center;width:16px;height:16px;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding:5px;}.react-flow__controls-button svg{max-width:12px;max-height:12px}.react-flow__controls-button:hover{background:#f4f4f4}";
-styleInject(css_248z);
 
 var _excluded$1 = ["elements", "className", "nodeTypes", "edgeTypes", "onElementClick", "onLoad", "onMove", "onMoveStart", "onMoveEnd", "onElementsRemove", "onConnect", "onConnectStart", "onConnectStop", "onConnectEnd", "onNodeMouseEnter", "onNodeMouseMove", "onNodeMouseLeave", "onNodeContextMenu", "onNodeDoubleClick", "onNodeDragStart", "onNodeDrag", "onNodeDragStop", "onSelectionChange", "onSelectionDragStart", "onSelectionDrag", "onSelectionDragStop", "onSelectionContextMenu", "connectionMode", "connectionLineType", "connectionLineStyle", "connectionLineComponent", "deleteKeyCode", "selectionKeyCode", "multiSelectionKeyCode", "zoomActivationKeyCode", "snapToGrid", "snapGrid", "onlyRenderVisibleElements", "selectNodesOnDrag", "nodesDraggable", "nodesConnectable", "elementsSelectable", "minZoom", "maxZoom", "defaultZoom", "defaultPosition", "translateExtent", "preventScrolling", "nodeExtent", "arrowHeadColor", "markerEndId", "zoomOnScroll", "zoomOnPinch", "panOnScroll", "panOnScrollSpeed", "panOnScrollMode", "zoomOnDoubleClick", "paneMoveable", "onPaneClick", "onPaneScroll", "onPaneContextMenu", "children", "onEdgeUpdate", "onEdgeContextMenu", "onEdgeDoubleClick", "onEdgeMouseEnter", "onEdgeMouseMove", "onEdgeMouseLeave", "onEdgeUpdateStart", "onEdgeUpdateEnd", "edgeUpdaterRadius", "nodeTypesId", "edgeTypesId"];
 
@@ -11330,7 +11326,7 @@ var defaultEdgeTypes = {
   step: StepEdge,
   smoothstep: SmoothStepEdge
 };
-var ReactFlow = /*#__PURE__*/forwardRef(function (_ref, ref) {
+var ReactFlow = /*#__PURE__*/React$1.forwardRef(function (_ref, ref) {
   var _ref$elements = _ref.elements,
       elements = _ref$elements === void 0 ? [] : _ref$elements,
       className = _ref.className,
@@ -11362,9 +11358,9 @@ var ReactFlow = /*#__PURE__*/forwardRef(function (_ref, ref) {
       onSelectionDragStop = _ref.onSelectionDragStop,
       onSelectionContextMenu = _ref.onSelectionContextMenu,
       _ref$connectionMode = _ref.connectionMode,
-      connectionMode = _ref$connectionMode === void 0 ? ConnectionMode.Strict : _ref$connectionMode,
+      connectionMode = _ref$connectionMode === void 0 ? exports.ConnectionMode.Strict : _ref$connectionMode,
       _ref$connectionLineTy = _ref.connectionLineType,
-      connectionLineType = _ref$connectionLineTy === void 0 ? ConnectionLineType.Bezier : _ref$connectionLineTy,
+      connectionLineType = _ref$connectionLineTy === void 0 ? exports.ConnectionLineType.Bezier : _ref$connectionLineTy,
       connectionLineStyle = _ref.connectionLineStyle,
       connectionLineComponent = _ref.connectionLineComponent,
       _ref$deleteKeyCode = _ref.deleteKeyCode,
@@ -11408,7 +11404,7 @@ var ReactFlow = /*#__PURE__*/forwardRef(function (_ref, ref) {
       _ref$panOnScrollSpeed = _ref.panOnScrollSpeed,
       panOnScrollSpeed = _ref$panOnScrollSpeed === void 0 ? 0.5 : _ref$panOnScrollSpeed,
       _ref$panOnScrollMode = _ref.panOnScrollMode,
-      panOnScrollMode = _ref$panOnScrollMode === void 0 ? PanOnScrollMode.Free : _ref$panOnScrollMode,
+      panOnScrollMode = _ref$panOnScrollMode === void 0 ? exports.PanOnScrollMode.Free : _ref$panOnScrollMode,
       _ref$zoomOnDoubleClic = _ref.zoomOnDoubleClick,
       zoomOnDoubleClick = _ref$zoomOnDoubleClic === void 0 ? true : _ref$zoomOnDoubleClic,
       _ref$paneMoveable = _ref.paneMoveable,
@@ -11433,17 +11429,17 @@ var ReactFlow = /*#__PURE__*/forwardRef(function (_ref, ref) {
       edgeTypesId = _ref$edgeTypesId === void 0 ? '1' : _ref$edgeTypesId,
       rest = _objectWithoutProperties(_ref, _excluded$1);
 
-  var nodeTypesParsed = useMemo(function () {
+  var nodeTypesParsed = React$1.useMemo(function () {
     return createNodeTypes(nodeTypes);
   }, [nodeTypesId]);
-  var edgeTypesParsed = useMemo(function () {
+  var edgeTypesParsed = React$1.useMemo(function () {
     return createEdgeTypes(edgeTypes);
   }, [edgeTypesId]);
   var reactFlowClasses = cc(['react-flow', className]);
-  return /*#__PURE__*/React__default.createElement("div", _objectSpread$2(_objectSpread$2({}, rest), {}, {
+  return /*#__PURE__*/React__default['default'].createElement("div", _objectSpread$2(_objectSpread$2({}, rest), {}, {
     ref: ref,
     className: reactFlowClasses
-  }), /*#__PURE__*/React__default.createElement(Wrapper, null, /*#__PURE__*/React__default.createElement(GraphView$1, {
+  }), /*#__PURE__*/React__default['default'].createElement(Wrapper, null, /*#__PURE__*/React__default['default'].createElement(GraphView$1, {
     onLoad: onLoad,
     onMove: onMove,
     onMoveStart: onMoveStart,
@@ -11511,9 +11507,9 @@ var ReactFlow = /*#__PURE__*/forwardRef(function (_ref, ref) {
     onEdgeUpdateStart: onEdgeUpdateStart,
     onEdgeUpdateEnd: onEdgeUpdateEnd,
     edgeUpdaterRadius: edgeUpdaterRadius
-  }), /*#__PURE__*/React__default.createElement(ElementUpdater, {
+  }), /*#__PURE__*/React__default['default'].createElement(ElementUpdater, {
     elements: elements
-  }), onSelectionChange && /*#__PURE__*/React__default.createElement(SelectionListener, {
+  }), onSelectionChange && /*#__PURE__*/React__default['default'].createElement(SelectionListener, {
     onSelectionChange: onSelectionChange
   }), children));
 });
@@ -11523,7 +11519,7 @@ function useUpdateNodeInternals() {
   var updateNodeDimensions = useStoreActions(function (actions) {
     return actions.updateNodeDimensions;
   });
-  return useCallback(function (id) {
+  return React$1.useCallback(function (id) {
     var nodeElement = document.querySelector(".react-flow__node[data-id=\"".concat(id, "\"]"));
 
     if (nodeElement) {
@@ -11554,7 +11550,7 @@ var MiniMapNode = function MiniMapNode(_ref) {
       backgroundColor = _ref2.backgroundColor;
 
   var fill = color || background || backgroundColor;
-  return /*#__PURE__*/React__default.createElement("rect", {
+  return /*#__PURE__*/React__default['default'].createElement("rect", {
     className: cc(['react-flow__minimap-node', className]),
     x: x,
     y: y,
@@ -11570,7 +11566,7 @@ var MiniMapNode = function MiniMapNode(_ref) {
 };
 
 MiniMapNode.displayName = 'MiniMapNode';
-var MiniMapNode$1 = /*#__PURE__*/memo(MiniMapNode);
+var MiniMapNode$1 = /*#__PURE__*/React$1.memo(MiniMapNode);
 
 var defaultWidth = 200;
 var defaultHeight = 150;
@@ -11640,7 +11636,7 @@ var MiniMap = function MiniMap(_ref) {
   var width = viewWidth + offset * 2;
   var height = viewHeight + offset * 2;
   var shapeRendering = typeof window === "undefined" || !!window.chrome ? "crispEdges" : "geometricPrecision";
-  return /*#__PURE__*/React__default.createElement("svg", {
+  return /*#__PURE__*/React__default['default'].createElement("svg", {
     width: elementWidth,
     height: elementHeight,
     viewBox: "".concat(x, " ").concat(y, " ").concat(width, " ").concat(height),
@@ -11649,7 +11645,7 @@ var MiniMap = function MiniMap(_ref) {
   }, nodes.filter(function (node) {
     return !node.isHidden;
   }).map(function (node) {
-    return /*#__PURE__*/React__default.createElement(MiniMapNode$1, {
+    return /*#__PURE__*/React__default['default'].createElement(MiniMapNode$1, {
       key: node.id,
       x: node.__rf.position.x,
       y: node.__rf.position.y,
@@ -11663,7 +11659,7 @@ var MiniMap = function MiniMap(_ref) {
       strokeWidth: nodeStrokeWidth,
       shapeRendering: shapeRendering
     });
-  }), /*#__PURE__*/React__default.createElement("path", {
+  }), /*#__PURE__*/React__default['default'].createElement("path", {
     className: "react-flow__minimap-mask",
     d: "M".concat(x - offset, ",").concat(y - offset, "h").concat(width + offset * 2, "v").concat(height + offset * 2, "h").concat(-width - offset * 2, "z\n        M").concat(viewBB.x, ",").concat(viewBB.y, "h").concat(viewBB.width, "v").concat(viewBB.height, "h").concat(-viewBB.width, "z"),
     fill: maskColor,
@@ -11672,17 +11668,17 @@ var MiniMap = function MiniMap(_ref) {
 };
 
 MiniMap.displayName = 'MiniMap';
-var index$2 = /*#__PURE__*/memo(MiniMap);
+var index$2 = /*#__PURE__*/React$1.memo(MiniMap);
 
 var _path$4;
 
 function _extends$4() { _extends$4 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$4.apply(this, arguments); }
 
 function SvgPlus(props) {
-  return /*#__PURE__*/React$1.createElement("svg", _extends$4({
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$4({
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 32 32"
-  }, props), _path$4 || (_path$4 = /*#__PURE__*/React$1.createElement("path", {
+  }, props), _path$4 || (_path$4 = /*#__PURE__*/React__namespace.createElement("path", {
     d: "M32 18.133H18.133V32h-4.266V18.133H0v-4.266h13.867V0h4.266v13.867H32z"
   })));
 }
@@ -11692,10 +11688,10 @@ var _path$3;
 function _extends$3() { _extends$3 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$3.apply(this, arguments); }
 
 function SvgMinus(props) {
-  return /*#__PURE__*/React$1.createElement("svg", _extends$3({
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$3({
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 32 5"
-  }, props), _path$3 || (_path$3 = /*#__PURE__*/React$1.createElement("path", {
+  }, props), _path$3 || (_path$3 = /*#__PURE__*/React__namespace.createElement("path", {
     d: "M0 0h32v4.2H0z"
   })));
 }
@@ -11705,10 +11701,10 @@ var _path$2;
 function _extends$2() { _extends$2 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$2.apply(this, arguments); }
 
 function SvgFitview(props) {
-  return /*#__PURE__*/React$1.createElement("svg", _extends$2({
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$2({
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 32 30"
-  }, props), _path$2 || (_path$2 = /*#__PURE__*/React$1.createElement("path", {
+  }, props), _path$2 || (_path$2 = /*#__PURE__*/React__namespace.createElement("path", {
     d: "M3.692 4.63c0-.53.4-.938.939-.938h5.215V0H4.708C2.13 0 0 2.054 0 4.63v5.216h3.692V4.631zM27.354 0h-5.2v3.692h5.17c.53 0 .984.4.984.939v5.215H32V4.631A4.624 4.624 0 0027.354 0zm.954 24.83c0 .532-.4.94-.939.94h-5.215v3.768h5.215c2.577 0 4.631-2.13 4.631-4.707v-5.139h-3.692v5.139zm-23.677.94a.919.919 0 01-.939-.94v-5.138H0v5.139c0 2.577 2.13 4.707 4.708 4.707h5.138V25.77H4.631z"
   })));
 }
@@ -11718,10 +11714,10 @@ var _path$1;
 function _extends$1() { _extends$1 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$1.apply(this, arguments); }
 
 function SvgLock(props) {
-  return /*#__PURE__*/React$1.createElement("svg", _extends$1({
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends$1({
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 25 32"
-  }, props), _path$1 || (_path$1 = /*#__PURE__*/React$1.createElement("path", {
+  }, props), _path$1 || (_path$1 = /*#__PURE__*/React__namespace.createElement("path", {
     d: "M21.333 10.667H19.81V7.619C19.81 3.429 16.38 0 12.19 0 8 0 4.571 3.429 4.571 7.619v3.048H3.048A3.056 3.056 0 000 13.714v15.238A3.056 3.056 0 003.048 32h18.285a3.056 3.056 0 003.048-3.048V13.714a3.056 3.056 0 00-3.048-3.047zM12.19 24.533a3.056 3.056 0 01-3.047-3.047 3.056 3.056 0 013.047-3.048 3.056 3.056 0 013.048 3.048 3.056 3.056 0 01-3.048 3.047zm4.724-13.866H7.467V7.619c0-2.59 2.133-4.724 4.723-4.724 2.591 0 4.724 2.133 4.724 4.724v3.048z"
   })));
 }
@@ -11731,10 +11727,10 @@ var _path;
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function SvgUnlock(props) {
-  return /*#__PURE__*/React$1.createElement("svg", _extends({
+  return /*#__PURE__*/React__namespace.createElement("svg", _extends({
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 25 32"
-  }, props), _path || (_path = /*#__PURE__*/React$1.createElement("path", {
+  }, props), _path || (_path = /*#__PURE__*/React__namespace.createElement("path", {
     d: "M21.333 10.667H19.81V7.619C19.81 3.429 16.38 0 12.19 0c-4.114 1.828-1.37 2.133.305 2.438 1.676.305 4.42 2.59 4.42 5.181v3.048H3.047A3.056 3.056 0 000 13.714v15.238A3.056 3.056 0 003.048 32h18.285a3.056 3.056 0 003.048-3.048V13.714a3.056 3.056 0 00-3.048-3.047zM12.19 24.533a3.056 3.056 0 01-3.047-3.047 3.056 3.056 0 013.047-3.048 3.056 3.056 0 013.048 3.048 3.056 3.056 0 01-3.048 3.047z"
   })));
 }
@@ -11749,7 +11745,7 @@ var ControlButton = function ControlButton(_ref) {
       className = _ref.className,
       rest = _objectWithoutProperties(_ref, _excluded);
 
-  return /*#__PURE__*/React__default.createElement("button", _objectSpread$1({
+  return /*#__PURE__*/React__default['default'].createElement("button", _objectSpread$1({
     className: cc(['react-flow__controls-button', className])
   }, rest), children);
 };
@@ -11770,7 +11766,7 @@ var Controls = function Controls(_ref2) {
       className = _ref2.className,
       children = _ref2.children;
 
-  var _useState = useState(false),
+  var _useState = React$1.useState(false),
       _useState2 = _slicedToArray$1(_useState, 2),
       isVisible = _useState2[0],
       setIsVisible = _useState2[1];
@@ -11788,23 +11784,23 @@ var Controls = function Controls(_ref2) {
     return s.nodesDraggable && s.nodesConnectable && s.elementsSelectable;
   });
   var mapClasses = cc(['react-flow__controls', className]);
-  var onZoomInHandler = useCallback(function () {
+  var onZoomInHandler = React$1.useCallback(function () {
     zoomIn === null || zoomIn === void 0 ? void 0 : zoomIn();
     onZoomIn === null || onZoomIn === void 0 ? void 0 : onZoomIn();
   }, [zoomIn, onZoomIn]);
-  var onZoomOutHandler = useCallback(function () {
+  var onZoomOutHandler = React$1.useCallback(function () {
     zoomOut === null || zoomOut === void 0 ? void 0 : zoomOut();
     onZoomOut === null || onZoomOut === void 0 ? void 0 : onZoomOut();
   }, [zoomOut, onZoomOut]);
-  var onFitViewHandler = useCallback(function () {
+  var onFitViewHandler = React$1.useCallback(function () {
     fitView === null || fitView === void 0 ? void 0 : fitView(fitViewParams);
     onFitView === null || onFitView === void 0 ? void 0 : onFitView();
   }, [fitView, fitViewParams, onFitView]);
-  var onInteractiveChangeHandler = useCallback(function () {
+  var onInteractiveChangeHandler = React$1.useCallback(function () {
     setInteractive === null || setInteractive === void 0 ? void 0 : setInteractive(!isInteractive);
     onInteractiveChange === null || onInteractiveChange === void 0 ? void 0 : onInteractiveChange(!isInteractive);
   }, [isInteractive, setInteractive, onInteractiveChange]);
-  useEffect(function () {
+  React$1.useEffect(function () {
     setIsVisible(true);
   }, []);
 
@@ -11812,36 +11808,36 @@ var Controls = function Controls(_ref2) {
     return null;
   }
 
-  return /*#__PURE__*/React__default.createElement("div", {
+  return /*#__PURE__*/React__default['default'].createElement("div", {
     className: mapClasses,
     style: style
-  }, showZoom && /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(ControlButton, {
+  }, showZoom && /*#__PURE__*/React__default['default'].createElement(React__default['default'].Fragment, null, /*#__PURE__*/React__default['default'].createElement(ControlButton, {
     onClick: onZoomInHandler,
     className: "react-flow__controls-zoomin"
-  }, /*#__PURE__*/React__default.createElement(SvgPlus, null)), /*#__PURE__*/React__default.createElement(ControlButton, {
+  }, /*#__PURE__*/React__default['default'].createElement(SvgPlus, null)), /*#__PURE__*/React__default['default'].createElement(ControlButton, {
     onClick: onZoomOutHandler,
     className: "react-flow__controls-zoomout"
-  }, /*#__PURE__*/React__default.createElement(SvgMinus, null))), showFitView && /*#__PURE__*/React__default.createElement(ControlButton, {
+  }, /*#__PURE__*/React__default['default'].createElement(SvgMinus, null))), showFitView && /*#__PURE__*/React__default['default'].createElement(ControlButton, {
     className: "react-flow__controls-fitview",
     onClick: onFitViewHandler
-  }, /*#__PURE__*/React__default.createElement(SvgFitview, null)), showInteractive && /*#__PURE__*/React__default.createElement(ControlButton, {
+  }, /*#__PURE__*/React__default['default'].createElement(SvgFitview, null)), showInteractive && /*#__PURE__*/React__default['default'].createElement(ControlButton, {
     className: "react-flow__controls-interactive",
     onClick: onInteractiveChangeHandler
-  }, isInteractive ? /*#__PURE__*/React__default.createElement(SvgUnlock, null) : /*#__PURE__*/React__default.createElement(SvgLock, null)), children);
+  }, isInteractive ? /*#__PURE__*/React__default['default'].createElement(SvgUnlock, null) : /*#__PURE__*/React__default['default'].createElement(SvgLock, null)), children);
 };
 
 Controls.displayName = 'Controls';
-var index$1 = /*#__PURE__*/memo(Controls);
+var index$1 = /*#__PURE__*/React$1.memo(Controls);
 
 var createGridLinesPath = function createGridLinesPath(size, strokeWidth, stroke) {
-  return /*#__PURE__*/React__default.createElement("path", {
+  return /*#__PURE__*/React__default['default'].createElement("path", {
     stroke: stroke,
     strokeWidth: strokeWidth,
     d: "M".concat(size / 2, " 0 V").concat(size, " M0 ").concat(size / 2, " H").concat(size)
   });
 };
 var createGridDotsPath = function createGridDotsPath(size, fill) {
-  return /*#__PURE__*/React__default.createElement("circle", {
+  return /*#__PURE__*/React__default['default'].createElement("circle", {
     cx: size,
     cy: size,
     r: size,
@@ -11854,11 +11850,11 @@ var _defaultColors;
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty$2(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-var defaultColors = (_defaultColors = {}, _defineProperty$2(_defaultColors, BackgroundVariant.Dots, '#81818a'), _defineProperty$2(_defaultColors, BackgroundVariant.Lines, '#eee'), _defaultColors);
+var defaultColors = (_defaultColors = {}, _defineProperty$2(_defaultColors, exports.BackgroundVariant.Dots, '#81818a'), _defineProperty$2(_defaultColors, exports.BackgroundVariant.Lines, '#eee'), _defaultColors);
 
 var Background = function Background(_ref) {
   var _ref$variant = _ref.variant,
-      variant = _ref$variant === void 0 ? BackgroundVariant.Dots : _ref$variant,
+      variant = _ref$variant === void 0 ? exports.BackgroundVariant.Dots : _ref$variant,
       _ref$gap = _ref.gap,
       gap = _ref$gap === void 0 ? 15 : _ref$gap,
       _ref$size = _ref.size,
@@ -11876,30 +11872,30 @@ var Background = function Background(_ref) {
       scale = _useStoreState2[2]; // when there are multiple flows on a page we need to make sure that every background gets its own pattern.
 
 
-  var patternId = useMemo(function () {
+  var patternId = React$1.useMemo(function () {
     return "pattern-".concat(Math.floor(Math.random() * 100000));
   }, []);
   var bgClasses = cc(['react-flow__background', className]);
   var scaledGap = gap * scale;
   var xOffset = x % scaledGap;
   var yOffset = y % scaledGap;
-  var isLines = variant === BackgroundVariant.Lines;
+  var isLines = variant === exports.BackgroundVariant.Lines;
   var bgColor = color ? color : defaultColors[variant];
   var path = isLines ? createGridLinesPath(scaledGap, size, bgColor) : createGridDotsPath(size * scale, bgColor);
-  return /*#__PURE__*/React__default.createElement("svg", {
+  return /*#__PURE__*/React__default['default'].createElement("svg", {
     className: bgClasses,
     style: _objectSpread(_objectSpread({}, style), {}, {
       width: '100%',
       height: '100%'
     })
-  }, /*#__PURE__*/React__default.createElement("pattern", {
+  }, /*#__PURE__*/React__default['default'].createElement("pattern", {
     id: patternId,
     x: xOffset,
     y: yOffset,
     width: scaledGap,
     height: scaledGap,
     patternUnits: "userSpaceOnUse"
-  }, path), /*#__PURE__*/React__default.createElement("rect", {
+  }, path), /*#__PURE__*/React__default['default'].createElement("rect", {
     x: "0",
     y: "0",
     width: "100%",
@@ -11909,20 +11905,51 @@ var Background = function Background(_ref) {
 };
 
 Background.displayName = 'Background';
-var index = /*#__PURE__*/memo(Background);
+var index = /*#__PURE__*/React$1.memo(Background);
 
 var ReactFlowProvider = function ReactFlowProvider(_ref) {
   var children = _ref.children;
-  var store = useMemo(function () {
+  var store = React$1.useMemo(function () {
     return configureStore(initialState);
   }, []);
-  return /*#__PURE__*/React__default.createElement(Provider$1, {
+  return /*#__PURE__*/React__default['default'].createElement(Provider$1, {
     store: store
   }, children);
 };
 
 ReactFlowProvider.displayName = 'ReactFlowProvider';
 
-export default ReactFlow;
-export { ArrowHeadType, index as Background, BackgroundVariant, BezierEdge, ConnectionLineType, ConnectionMode, ControlButton, index$1 as Controls, EdgeText$1 as EdgeText, Handle$1 as Handle, index$2 as MiniMap, PanOnScrollMode, Position, ReactFlowProvider, SmoothStepEdge, StepEdge, StraightEdge, addEdge, getBezierPath, getConnectedEdges, getCenter as getEdgeCenter, getIncomers, getMarkerEnd, getOutgoers, getRectOfNodes, getSmoothStepPath, getTransformForBounds, isEdge, isNode, removeElements, updateEdge, useDispatch, useStore, useStoreActions, useStoreState, useTypedSelector, useUpdateNodeInternals, useZoomPanHelper };
-//# sourceMappingURL=ReactFlow.esm.js.map
+exports.Background = index;
+exports.BezierEdge = BezierEdge;
+exports.ControlButton = ControlButton;
+exports.Controls = index$1;
+exports.EdgeText = EdgeText$1;
+exports.Handle = Handle$1;
+exports.MiniMap = index$2;
+exports.ReactFlowProvider = ReactFlowProvider;
+exports.SmoothStepEdge = SmoothStepEdge;
+exports.StepEdge = StepEdge;
+exports.StraightEdge = StraightEdge;
+exports.addEdge = addEdge;
+exports.default = ReactFlow;
+exports.getBezierPath = getBezierPath;
+exports.getConnectedEdges = getConnectedEdges;
+exports.getEdgeCenter = getCenter;
+exports.getIncomers = getIncomers;
+exports.getMarkerEnd = getMarkerEnd;
+exports.getOutgoers = getOutgoers;
+exports.getRectOfNodes = getRectOfNodes;
+exports.getSmoothStepPath = getSmoothStepPath;
+exports.getTransformForBounds = getTransformForBounds;
+exports.isEdge = isEdge;
+exports.isNode = isNode;
+exports.removeElements = removeElements;
+exports.updateEdge = updateEdge;
+exports.useDispatch = useDispatch;
+exports.useStore = useStore;
+exports.useStoreActions = useStoreActions;
+exports.useStoreState = useStoreState;
+exports.useTypedSelector = useTypedSelector;
+exports.useUpdateNodeInternals = useUpdateNodeInternals;
+exports.useZoomPanHelper = useZoomPanHelper;
+//# sourceMappingURL=ReactFlow-nocss.js.map
