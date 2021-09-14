@@ -10036,16 +10036,19 @@ var useZoomPanHelper = function useZoomPanHelper() {
           var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
             height: 0,
             width: 0,
-            nodes: store.getState().nodes,
+            nodes: [],
             padding: DEFAULT_PADDING,
             includeHiddenNodes: false
           };
 
           var _store$getState2 = store.getState(),
+              nodes = _store$getState2.nodes,
               minZoom = _store$getState2.minZoom,
               maxZoom = _store$getState2.maxZoom;
 
-          if (!options.nodes.length) {
+          if (options.nodes) nodes = options.nodes;
+
+          if (!nodes.length) {
             return;
           }
 
