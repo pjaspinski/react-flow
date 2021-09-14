@@ -10036,7 +10036,7 @@ var useZoomPanHelper = function useZoomPanHelper() {
           var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
             height: 0,
             width: 0,
-            nodes: [],
+            nodes: store.getState().nodes,
             padding: DEFAULT_PADDING,
             includeHiddenNodes: false
           };

@@ -55,7 +55,7 @@ const useZoomPanHelper = (): ZoomPanHelperFunctions => {
 
           d3Zoom.transform(d3Selection, transform);
         },
-        fitViewToDimensions: (options: FitViewToDimensionsParams = { height: 0, width: 0, nodes: [], padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {
+        fitViewToDimensions: (options: FitViewToDimensionsParams = { height: 0, width: 0, nodes: store.getState().nodes, padding: DEFAULT_PADDING, includeHiddenNodes: false }) => {
           const { minZoom, maxZoom } = store.getState();
 
           if (!options.nodes.length) {
