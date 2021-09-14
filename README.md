@@ -1,4 +1,4 @@
-This library was modified by me to provide a behaviour described in this [issue](https://github.com/wbkd/react-flow/issues/1419). I achieved it by adding a `fitViewToDimensions` function in `src\hooks\useZoomPanHelper.ts`.
+This library was modified by me to provide a behaviour described in this [issue](https://github.com/wbkd/react-flow/issues/1419). I achieved it by adding a `fitViewToDimensions` function in `src\hooks\useZoomPanHelper.ts`. It takes nodes and container dimensions as arguments instead of getting them from store. This way you can pass them yourself, an they will always be up to date.
 
 [![react-flow](https://user-images.githubusercontent.com/2857535/95224198-b2540000-07fa-11eb-832d-361d72d60345.jpg)](https://reactflow.dev)
 
