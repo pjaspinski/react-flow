@@ -10023,7 +10023,7 @@ var useZoomPanHelper = function useZoomPanHelper() {
             return;
           }
 
-          var bounds = getRectOfNodes(options.includeHiddenNodes ? options.nodes : options.nodes.filter(function (node) {
+          var bounds = getRectOfNodes(options.includeHiddenNodes ? nodes : nodes.filter(function (node) {
             return !node.isHidden;
           }));
 
