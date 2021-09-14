@@ -255,6 +255,7 @@ export type FitViewParams = {
 export type FitViewToDimensionsParams = {
   width: number,
   height: number,
+  nodes: Array<Node>,
   padding?: number;
   includeHiddenNodes?: boolean;
   minZoom?: number;
